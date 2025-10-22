@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Valdoria Resort — El Vergel de La Mancha</title>
+    <meta
+      name="description"
+      content="Descubre Valdoria Resort: villas privadas, spa de autor y gastronomía manchega reinterpretada en un santuario de lujo entre viñedos."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lato:wght@400;600&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <div class="page page--resort">
+      <header class="resort-hero" id="inicio">
+        <video autoplay muted loop playsinline class="hero-video" poster="assets/resort/videos/valdoria-drone-poster.webp">
+          <source src="assets/resort/videos/valdoria-drone.mp4" type="video/mp4" />
+        </video>
+        <nav class="nav" aria-label="Navegación principal">
+          <a class="nav__brand" href="index.html">
+            <span class="nav__logo">Valdoria</span>
+            <span class="nav__subtitle">Luxury Resort &amp; Spa</span>
+          </a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Abrir menú" aria-controls="nav-menu">
+            <span class="nav__toggle-line"></span>
+            <span class="nav__toggle-line"></span>
+            <span class="nav__toggle-line"></span>
+          </button>
+          <div class="nav__links" id="nav-menu">
+            <a class="nav__link" href="resort.html" aria-current="page">Resort</a>
+            <a class="nav__link" href="experiencias.html">Experiencias</a>
+            <a class="nav__link" href="villas.html">Villas</a>
+            <a class="nav__link" href="wellness.html">Wellness &amp; Gastro</a>
+            <a class="nav__link nav__link--cta" href="contacto.html">Contacto</a>
+          </div>
+        </nav>
+
+        <div class="resort-hero__cta">
+          <a class="button button--primary" href="experiencias.html">Colección de experiencias</a>
+        </div>
+
+      </header>
+
+      <footer class="footer">
+        <span>© 2025 Valdoria Luxury Resort &amp; Spa — Tarancón, Cuenca</span>
+      </footer>
+    </div>
+    <script src="assets/js/navigation.js"></script>
+  </body>
+</html>
