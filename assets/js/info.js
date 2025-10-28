@@ -13,10 +13,13 @@
 
   const formatDate = (isoString, lang) => {
     if (!isoString) {
-      return '';
+      return null;
     }
     try {
       const date = new Date(isoString);
+      if (Number.isNaN(date.valueOf())) {
+        return null;
+      }
       return new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
         day: '2-digit',
         month: 'short',
@@ -25,7 +28,7 @@
         minute: '2-digit',
       }).format(date);
     } catch {
-      return isoString;
+      return null;
     }
   };
 
@@ -47,10 +50,14 @@
       </div>
     `;
 
-    const updatedLabel =
-      lang === 'en'
-        ? `Updated ${formatDate(weatherData?.updated_at || weatherData?.timestamp, 'en')}`
-        : `Actualizado ${formatDate(weatherData?.updated_at || weatherData?.timestamp, 'es')}`;
+    const formattedDate = formatDate(weatherData?.updated_at || weatherData?.timestamp, lang);
+    const updatedLabel = formattedDate
+      ? lang === 'en'
+        ? `Updated ${formattedDate}`
+        : `Actualizado ${formattedDate}`
+      : lang === 'en'
+        ? 'Update pending'
+        : 'Actualización pendiente';
 
     weatherUpdatedNodes.forEach((node) => {
       if (node.getAttribute('lang') === lang) {
@@ -187,14 +194,22 @@
         data?.events?.updated_at || data?.events_updated_at || data?.updated_at || data?.timestamp || '';
       const weatherUpdated = data?.weather?.updated_at || data?.weather?.timestamp || data?.updated_at || '';
 
-      const eventsLabel =
-        lang === 'en'
-          ? `Updated ${formatDate(eventsUpdated, 'en')}`
-          : `Actualizado ${formatDate(eventsUpdated, 'es')}`;
-      const weatherLabel =
-        lang === 'en'
-          ? `Updated ${formatDate(weatherUpdated, 'en')}`
-          : `Actualizado ${formatDate(weatherUpdated, 'es')}`;
+    const formattedEventsDate = formatDate(eventsUpdated, lang);
+    const eventsLabel = formattedEventsDate
+      ? lang === 'en'
+        ? `Updated ${formattedEventsDate}`
+        : `Actualizado ${formattedEventsDate}`
+      : lang === 'en'
+        ? 'Update pending'
+        : 'Actualización pendiente';
+      const formattedWeatherDate = formatDate(weatherUpdated, lang);
+      const weatherLabel = formattedWeatherDate
+        ? lang === 'en'
+          ? `Updated ${formattedWeatherDate}`
+          : `Actualizado ${formattedWeatherDate}`
+        : lang === 'en'
+          ? 'Update pending'
+          : 'Actualización pendiente';
 
       eventsUpdatedNodes.forEach((node) => {
         if (node.getAttribute('lang') === lang) {
@@ -222,4 +237,3 @@
       applyLanguageToggle();
     });
 })();
-
