@@ -100,12 +100,6 @@ img {
   row-gap: 0.35rem;
 }
 
-
-.nav__weather-text {
-  display: inline-flex;
-  align-items: center;
-}
-
 .nav__locale {
   display: inline-flex;
   align-items: center;
@@ -1016,12 +1010,6 @@ body.disclaimer-open {
     gap: 1rem;
   }
 
-  .nav__weather {
-    font-size: 0.82rem;
-    letter-spacing: 0.1em;
-    white-space: nowrap;
-  }
-
   .nav__toggle {
     display: none;
   }
@@ -1294,10 +1282,6 @@ body.disclaimer-open {
     gap: 0.4rem;
     justify-content: flex-end;
     flex-wrap: wrap;
-  }
-
-  .nav__weather {
-    display: none;
   }
 
   .nav__locale {

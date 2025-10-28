@@ -16,54 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     pause: { es: 'Pausar video', en: 'Pause video' },
   };
 
-  const weatherStrings = {
-    city: { es: 'Tarancón', en: 'Tarancón' },
-    loading: { es: 'Cargando clima…', en: 'Loading weather…' },
-    unavailable: { es: 'No disponible', en: 'Unavailable' },
-    unknown: { es: 'Condición desconocida', en: 'Unknown conditions' },
-  };
-
-  const weatherCodeMap = {
-    0: { icon: '☀️', es: 'Cielo despejado', en: 'Clear sky' },
-    1: { icon: '🌤️', es: 'Casi despejado', en: 'Mostly clear' },
-    2: { icon: '⛅️', es: 'Parcialmente nublado', en: 'Partly cloudy' },
-    3: { icon: '☁️', es: 'Cubierto', en: 'Overcast' },
-    45: { icon: '🌫️', es: 'Niebla', en: 'Fog' },
-    48: { icon: '🌫️', es: 'Niebla con escarcha', en: 'Freezing fog' },
-    51: { icon: '🌦️', es: 'Llovizna ligera', en: 'Light drizzle' },
-    53: { icon: '🌦️', es: 'Llovizna moderada', en: 'Moderate drizzle' },
-    55: { icon: '🌧️', es: 'Llovizna densa', en: 'Dense drizzle' },
-    56: { icon: '🌧️', es: 'Llovizna helada ligera', en: 'Light freezing drizzle' },
-    57: { icon: '🌧️', es: 'Llovizna helada intensa', en: 'Heavy freezing drizzle' },
-    61: { icon: '🌧️', es: 'Lluvia ligera', en: 'Light rain' },
-    63: { icon: '🌧️', es: 'Lluvia moderada', en: 'Moderate rain' },
-    65: { icon: '🌧️', es: 'Lluvia intensa', en: 'Heavy rain' },
-    66: { icon: '🌧️', es: 'Lluvia helada ligera', en: 'Light freezing rain' },
-    67: { icon: '🌧️', es: 'Lluvia helada intensa', en: 'Heavy freezing rain' },
-    71: { icon: '❄️', es: 'Nieve ligera', en: 'Light snow' },
-    73: { icon: '❄️', es: 'Nieve moderada', en: 'Moderate snow' },
-    75: { icon: '❄️', es: 'Nieve intensa', en: 'Heavy snow' },
-    77: { icon: '❄️', es: 'Granizo fino', en: 'Snow grains' },
-    80: { icon: '🌦️', es: 'Chubascos ligeros', en: 'Light showers' },
-    81: { icon: '🌧️', es: 'Chubascos moderados', en: 'Moderate showers' },
-    82: { icon: '🌧️', es: 'Chubascos intensos', en: 'Heavy showers' },
-    85: { icon: '❄️', es: 'Chubascos de nieve', en: 'Snow showers' },
-    86: { icon: '❄️', es: 'Chubascos fuertes de nieve', en: 'Heavy snow showers' },
-    95: { icon: '⛈️', es: 'Tormenta', en: 'Thunderstorm' },
-    96: { icon: '⛈️', es: 'Tormenta con granizo ligero', en: 'Thunderstorm with light hail' },
-    99: { icon: '⛈️', es: 'Tormenta con granizo intenso', en: 'Thunderstorm with heavy hail' },
-  };
-
   const htmlElement = document.documentElement;
   const langOptionButtons = Array.from(document.querySelectorAll('[data-lang-option]'));
-  const weatherElement = document.querySelector('[data-weather]');
-  const weatherTextNodes = weatherElement
-    ? {
-        es: weatherElement.querySelector('.nav__weather-text[lang="es"]'),
-        en: weatherElement.querySelector('.nav__weather-text[lang="en"]'),
-      }
-    : null;
-  const weatherIconNode = weatherElement ? weatherElement.querySelector('.nav__weather-icon') : null;
   const lightboxModal = document.querySelector('[data-lightbox-modal]');
   const lightboxDialog = lightboxModal ? lightboxModal.querySelector('.lightbox__dialog') : null;
   const lightboxImage = lightboxModal ? lightboxModal.querySelector('[data-lightbox-image]') : null;
@@ -81,13 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentLanguage = supportedLanguages.includes(storedLanguage || '') ? storedLanguage : defaultLanguage;
   let navControls = [];
   let disclaimerControls = null;
-  let weatherData = null;
-  let weatherIsLoading = Boolean(weatherElement);
-  let weatherFailed = false;
   let lightboxIsOpen = false;
   let activeLightboxTrigger = null;
 
-  const getWeatherEntry = (code) => weatherCodeMap[code] || null;
   const upperFirst = (value) => (value ? value.charAt(0).toUpperCase() + value.slice(1) : '');
 
   const getLightboxCaption = (trigger, lang) => {
@@ -191,91 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  const renderWeather = () => {
-    if (!weatherElement || !weatherTextNodes) {
-      return;
-    }
-
-    supportedLanguages.forEach((lang) => {
-      const node = weatherTextNodes[lang];
-      if (!node) {
-        return;
-      }
-
-      let text = weatherStrings.loading[lang];
-      if (!weatherIsLoading) {
-        if (weatherFailed || !weatherData) {
-          text = `${weatherStrings.city[lang]} · ${weatherStrings.unavailable[lang]}`;
-        } else {
-          const { temperature, code } = weatherData;
-          const entry = getWeatherEntry(code);
-          const description = entry ? entry[lang] : weatherStrings.unknown[lang];
-          const temperatureText = typeof temperature === 'number' ? `${temperature}°C` : '--';
-          text = `${weatherStrings.city[lang]} · ${temperatureText} · ${description}`;
-        }
-      }
-
-      node.textContent = text;
-    });
-
-    if (weatherIconNode) {
-      let icon = '–';
-      if (!weatherIsLoading) {
-        if (weatherFailed || !weatherData) {
-          icon = '⚠️';
-        } else {
-          icon = (getWeatherEntry(weatherData.code) || {}).icon || 'ℹ️';
-        }
-      }
-      weatherIconNode.textContent = icon;
-    }
-  };
-
-  const fetchWeather = () => {
-    if (!weatherElement || typeof fetch !== 'function') {
-      return;
-    }
-
-    weatherIsLoading = true;
-    weatherFailed = false;
-    renderWeather();
-
-    const controller = new AbortController();
-    const timeoutId = window.setTimeout(() => controller.abort(), 10000);
-
-    fetch(
-      'https://api.open-meteo.com/v1/forecast?latitude=40.0107&longitude=-3.0061&current=temperature_2m,weather_code&timezone=Europe%2FMadrid',
-      { signal: controller.signal }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Weather request failed');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const current = data && data.current;
-        if (!current || typeof current.temperature_2m !== 'number' || typeof current.weather_code !== 'number') {
-          throw new Error('Weather payload invalid');
-        }
-
-        weatherData = {
-          temperature: Math.round(current.temperature_2m),
-          code: current.weather_code,
-        };
-        weatherFailed = false;
-      })
-      .catch(() => {
-        weatherData = null;
-        weatherFailed = true;
-      })
-      .finally(() => {
-        weatherIsLoading = false;
-        renderWeather();
-        window.clearTimeout(timeoutId);
-      });
-  };
-
   const toggleLanguageElements = (lang) => {
     document.querySelectorAll('[lang]').forEach((element) => {
       if (element === htmlElement) {
@@ -341,8 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (disclaimerControls && typeof disclaimerControls.updateAudioButtonLabel === 'function') {
       disclaimerControls.updateAudioButtonLabel();
     }
-
-    renderWeather();
 
     if (persist) {
       try {
@@ -634,9 +497,4 @@ document.addEventListener('DOMContentLoaded', () => {
     disclaimerControls.updateAudioButtonLabel();
   }
 
-  if (weatherElement) {
-    renderWeather();
-    fetchWeather();
-    window.setInterval(fetchWeather, 30 * 60 * 1000);
-  }
 });

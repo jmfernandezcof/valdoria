@@ -8,7 +8,7 @@
 - Hero con imagen cenital optimizada (`assets/resort/images/Hotel Cenital.webp`), overlay oscuro y logo oficial; CTA primario “Ver Resort”.
 - Copy introductorio breve, mantiene el claim principal y enlaza a la página de resort.
 - Overlay de bienvenida con vídeo legal (HeyGen) que informa que el hotel es conceptual; el visitante controla audio/play sin salir de la página.
-- Navbar incluye selector de idioma con banderas (ES/EN) y widget meteorológico de Tarancón.
+- Navbar incluye selector de idioma con banderas (ES/EN), conservando el esquema bilingüe en todo el sitio.
 - Ajustes responsive para conservar jerarquía tipográfica y centrado en pantallas menores a 960 px.
 
 ## Página del resort (`resort.html`)
@@ -36,7 +36,7 @@
 ## Estilos (`assets/css/style.css`)
 - Variables de color y tipografías alineadas con el manual de identidad.
 - Componentes compartidos: hero, cards, navbar sticky + hamburguesa, bloques CTA, media-roll y versiones responsive para <960 px y <640 px.
-- Ajustes recientes: overlay del hero, soporte para vídeo de fondo (`.hero-video`) con autoplay, menú bilingüe con iconos de bandera y widget meteorológico, visor lightbox reutilizable, tarjetas horizontales con fallback vertical, CTA flotante en resort y control de overflow lateral en móviles.
+- Ajustes recientes: overlay del hero, soporte para vídeo de fondo (`.hero-video`) con autoplay, menú bilingüe con iconos de bandera, visor lightbox reutilizable, tarjetas horizontales con fallback vertical, CTA flotante en resort y control de overflow lateral en móviles.
 
 ## Biblioteca visual y medios
 - `assets/brand/`: logos, favicons definitivos (`favicon.ico`, variaciones PNG 16–512 px) y manual de identidad.
