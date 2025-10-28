@@ -4,6 +4,169 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let navControls = [];
 
+  const disclaimerElement = document.querySelector('[data-disclaimer]');
+  const disclaimerStorageKey = 'valdoriaDisclaimerSeen';
+
+  if (disclaimerElement) {
+    const video = disclaimerElement.querySelector('video');
+    const skipButton = disclaimerElement.querySelector('[data-disclaimer-skip]');
+    const audioButton = disclaimerElement.querySelector('[data-disclaimer-audio]');
+    let keydownHandler = null;
+    let videoEndedHandler = null;
+    let audioClickHandler = null;
+    let audioEnabled = false;
+    let audioUnlockHandler = null;
+
+    const updateAudioButtonLabel = () => {
+      if (!audioButton) {
+        return;
+      }
+      audioButton.textContent = audioEnabled ? 'Silenciar sonido' : 'Activar sonido';
+      audioButton.setAttribute('aria-pressed', String(audioEnabled));
+    };
+
+    const removeAudioUnlockHandler = () => {
+      if (!audioUnlockHandler) {
+        return;
+      }
+      window.removeEventListener('pointerdown', audioUnlockHandler);
+      window.removeEventListener('keydown', audioUnlockHandler);
+      audioUnlockHandler = null;
+    };
+
+    const registerAudioUnlockHandler = () => {
+      if (audioUnlockHandler) {
+        return;
+      }
+      audioUnlockHandler = (event) => {
+        if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') {
+          return;
+        }
+        removeAudioUnlockHandler();
+        enableVideoSound(true);
+      };
+      window.addEventListener('pointerdown', audioUnlockHandler);
+      window.addEventListener('keydown', audioUnlockHandler);
+    };
+
+    const muteVideo = (pausePlayback = false) => {
+      if (!video) {
+        return;
+      }
+      video.muted = true;
+      video.defaultMuted = true;
+      video.setAttribute('muted', '');
+      if (pausePlayback) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      audioEnabled = false;
+      updateAudioButtonLabel();
+    };
+
+    const enableVideoSound = (resetPlayback = false) => {
+      if (!video) {
+        return Promise.resolve(false);
+      }
+
+      video.defaultMuted = false;
+      video.removeAttribute('muted');
+      video.muted = false;
+      video.volume = 1;
+      if (resetPlayback) {
+        video.currentTime = 0;
+      }
+
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        return playPromise
+          .then(() => {
+            audioEnabled = true;
+            updateAudioButtonLabel();
+            removeAudioUnlockHandler();
+            return true;
+          })
+          .catch(() => {
+            muteVideo(true);
+            registerAudioUnlockHandler();
+            return false;
+          });
+      }
+
+      audioEnabled = !video.muted;
+      updateAudioButtonLabel();
+      return Promise.resolve(audioEnabled);
+    };
+
+    const closeDisclaimer = () => {
+      disclaimerElement.classList.add('disclaimer--hidden');
+      disclaimerElement.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('disclaimer-open');
+      sessionStorage.setItem(disclaimerStorageKey, 'acknowledged');
+
+      if (keydownHandler) {
+        document.removeEventListener('keydown', keydownHandler);
+        keydownHandler = null;
+      }
+      if (video && videoEndedHandler) {
+        video.removeEventListener('ended', videoEndedHandler);
+        videoEndedHandler = null;
+      }
+      if (audioButton && audioClickHandler) {
+        audioButton.removeEventListener('click', audioClickHandler);
+        audioClickHandler = null;
+      }
+      removeAudioUnlockHandler();
+      audioEnabled = false;
+
+      window.setTimeout(() => {
+        if (video) {
+          video.pause();
+        }
+        disclaimerElement.remove();
+      }, 400);
+    };
+
+    const showDisclaimer = () => {
+      disclaimerElement.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('disclaimer-open');
+      audioEnabled = false;
+      updateAudioButtonLabel();
+      if (video) {
+        videoEndedHandler = () => closeDisclaimer();
+        video.addEventListener('ended', videoEndedHandler, { once: true });
+      }
+      if (skipButton) {
+        skipButton.addEventListener('click', closeDisclaimer, { once: true });
+      }
+      if (audioButton && video) {
+        audioClickHandler = () => {
+          if (audioEnabled) {
+            muteVideo(false);
+          } else {
+            enableVideoSound(false);
+          }
+        };
+        audioButton.addEventListener('click', audioClickHandler);
+      }
+      if (video) {
+        enableVideoSound(true);
+      }
+      keydownHandler = (event) => {
+        if (event.key === 'Escape') {
+          closeDisclaimer();
+        }
+      };
+      document.addEventListener('keydown', keydownHandler);
+    };
+
+    if (sessionStorage.getItem(disclaimerStorageKey)) {
+      disclaimerElement.remove();
+    } else {
+      showDisclaimer();
+    }
+  }
+
   function updateBodyState() {
     const anyOpen = navControls.some(({ nav }) => nav.classList.contains('nav--open'));
     document.body.classList.toggle('menu-open', anyOpen);

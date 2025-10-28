@@ -18,9 +18,37 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lato:wght@400;600&family=Playfair+Display:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png" />
+    <link rel="icon" href="assets/brand/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body>
+    <div class="disclaimer" data-disclaimer aria-hidden="true">
+      <div class="disclaimer__dialog" role="dialog" aria-modal="true" aria-label="Aviso importante">
+        <video
+          class="disclaimer__video"
+          autoplay
+          playsinline
+          preload="auto"
+          controlslist="nodownload noplaybackrate nofullscreen"
+          disablepictureinpicture
+        >
+          <source src="assets/brand/videos/disclaimer.webm" type="video/webm" />
+          <source src="assets/brand/videos/disclaimer.mp4" type="video/mp4" />
+          Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin
+          reservas reales.
+        </video>
+        <div class="disclaimer__marquee">
+          <p class="disclaimer__message">Valdoria Hotel es un proyecto conceptual. El contenido es demostrativo y no existen reservas reales disponibles.</p>
+        </div>
+        <div class="disclaimer__controls">
+          <button class="disclaimer__button disclaimer__button--ghost" type="button" data-disclaimer-audio>Silenciar sonido</button>
+          <button class="disclaimer__button disclaimer__button--accent" type="button" data-disclaimer-skip>Entrar al sitio</button>
+        </div>
+      </div>
+    </div>
     <div class="page page--resort">
       <header class="subpage-hero">
         <nav class="nav" aria-label="Navegación principal">
@@ -54,18 +82,16 @@
 
       <main>
         <section class="section section--gallery" aria-label="Galería de Villas Valdoria">
-          <div class="media-roll" aria-live="polite">
-            <div class="media-roll__track">
-              <figure class="media-roll__item">
-                <img src="assets/villas/images/Suite1.webp" alt="Vista interior de la suite principal Valdoria" />
-              </figure>
-              <figure class="media-roll__item">
-                <img src="assets/villas/images/Suite2.webp" alt="Área social con chimenea en villa Valdoria" />
-              </figure>
-              <figure class="media-roll__item">
-                <img src="assets/villas/images/suite3.webp" alt="Terraza panorámica con piscina privada en villa Valdoria" />
-              </figure>
-            </div>
+          <div class="villa-gallery" role="group" aria-label="Renders de Villas Valdoria">
+            <figure class="villa-gallery__item">
+              <img src="assets/villas/images/Suite1.webp" alt="Vista interior de la suite principal Valdoria" />
+            </figure>
+            <figure class="villa-gallery__item">
+              <img src="assets/villas/images/Suite2.webp" alt="Área social con chimenea en villa Valdoria" />
+            </figure>
+            <figure class="villa-gallery__item">
+              <img src="assets/villas/images/suite3.webp" alt="Terraza panorámica con piscina privada en villa Valdoria" />
+            </figure>
           </div>
         </section>
 

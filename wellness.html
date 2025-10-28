@@ -14,9 +14,37 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lato:wght@400;600&family=Playfair+Display:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png" />
+    <link rel="icon" href="assets/brand/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body>
+    <div class="disclaimer" data-disclaimer aria-hidden="true">
+      <div class="disclaimer__dialog" role="dialog" aria-modal="true" aria-label="Aviso importante">
+        <video
+          class="disclaimer__video"
+          autoplay
+          playsinline
+          preload="auto"
+          controlslist="nodownload noplaybackrate nofullscreen"
+          disablepictureinpicture
+        >
+          <source src="assets/brand/videos/disclaimer.webm" type="video/webm" />
+          <source src="assets/brand/videos/disclaimer.mp4" type="video/mp4" />
+          Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin
+          reservas reales.
+        </video>
+        <div class="disclaimer__marquee">
+          <p class="disclaimer__message">Valdoria Hotel es un proyecto conceptual. El contenido es demostrativo y no existen reservas reales disponibles.</p>
+        </div>
+        <div class="disclaimer__controls">
+          <button class="disclaimer__button disclaimer__button--ghost" type="button" data-disclaimer-audio>Silenciar sonido</button>
+          <button class="disclaimer__button disclaimer__button--accent" type="button" data-disclaimer-skip>Entrar al sitio</button>
+        </div>
+      </div>
+    </div>
     <div class="page page--resort">
       <header class="subpage-hero">
         <nav class="nav" aria-label="Navegación principal">
@@ -61,6 +89,9 @@
             </p>
             <div class="resort-details">
               <article class="resort-details__card">
+                <figure class="resort-details__media">
+                  <img src="assets/wellness/images/Spa.webp" alt="Piscina termal del Valdoria Ritual Spa" />
+                </figure>
                 <h3>Valdoria Ritual Spa</h3>
                 <ul>
                   <li>Rituales holísticos inspirados en la flora aromática de la región.</li>
@@ -70,12 +101,27 @@
                 </ul>
               </article>
               <article class="resort-details__card">
+                <figure class="resort-details__media">
+                  <img src="assets/experiencias/images/Restaurant.webp" alt="Restaurante Valdoria con mesa preparada para maridaje" />
+                </figure>
                 <h3>Gastronomía sensorial</h3>
                 <ul>
                   <li>Cocina manchega reinterpretada con técnicas contemporáneas.</li>
                   <li>Menús maridados con vinos de autor del viñedo Valdoria y bodegas invitadas.</li>
                   <li>Experiencias inmersivas: cenas en bodegas subterráneas y mesas del chef privadas.</li>
                   <li>Huerto orgánico propio y despensa de productores locales seleccionados.</li>
+                </ul>
+              </article>
+              <article class="resort-details__card">
+                <figure class="resort-details__media">
+                  <img src="assets/experiencias/images/Bar.webp" alt="Coctelería Valdoria con barra y ambiente cálido" />
+                </figure>
+                <h3>Wine &amp; Cocktail Bar</h3>
+                <ul>
+                  <li>Carta de vinos de terroir Valdoria y etiquetas boutique seleccionadas por nuestro sommelier.</li>
+                  <li>Coctelería de autor inspirada en botánicos manchegos y destilados artesanales.</li>
+                  <li>Maridajes guiados al atardecer con música ambiente y luz tenue entre barricas.</li>
+                  <li>Reservados privados para encuentros íntimos en un entorno sereno y relajado.</li>
                 </ul>
               </article>
             </div>
