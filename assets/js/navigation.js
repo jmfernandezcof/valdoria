@@ -55,7 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const htmlElement = document.documentElement;
-  const langToggleButton = document.querySelector('[data-lang-toggle]');
+  const langSwitcher = document.querySelector('[data-lang-switcher]');
+  const langOptionButtons = Array.from(document.querySelectorAll('[data-lang-option]'));
   const weatherElement = document.querySelector('[data-weather]');
   const weatherTextNodes = weatherElement
     ? {
@@ -200,6 +201,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const updateLangOptionState = () => {
+    if (!langOptionButtons.length) {
+      return;
+    }
+    langOptionButtons.forEach((button) => {
+      const optionLang = button.dataset.langOption;
+      const isActive = optionLang === currentLanguage;
+      button.classList.toggle('nav__lang-option--active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
+  };
+
   const setLanguage = (lang, { persist = true } = {}) => {
     if (!supportedLanguages.includes(lang)) {
       lang = defaultLanguage;
@@ -212,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleLanguageElements(lang);
     updateAriaLabels(lang);
     updateMenuLabels();
+    updateLangOptionState();
 
     if (disclaimerControls && typeof disclaimerControls.updateAudioButtonLabel === 'function') {
       disclaimerControls.updateAudioButtonLabel();
@@ -464,14 +478,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  if (langToggleButton) {
-    langToggleButton.addEventListener('click', () => {
-      const nextLanguage = currentLanguage === 'es' ? 'en' : 'es';
-      setLanguage(nextLanguage);
+  if (langOptionButtons.length) {
+    langOptionButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = button.dataset.langOption;
+        if (target) {
+          setLanguage(target);
+        }
+      });
     });
   }
 
   setLanguage(currentLanguage, { persist: false });
+  updateLangOptionState();
   if (disclaimerControls && typeof disclaimerControls.updateAudioButtonLabel === 'function') {
     disclaimerControls.updateAudioButtonLabel();
   }

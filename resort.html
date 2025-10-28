@@ -70,22 +70,30 @@
           </a>
           <div class="nav__actions">
             <div class="nav__meta">
+              <div
+                class="nav__locale"
+                role="group"
+                data-lang-switcher
+                aria-label="Cambiar idioma"
+                data-lang-aria-label-es="Cambiar idioma"
+                data-lang-aria-label-en="Change language"
+              >
+                <button class="nav__lang-option" type="button" data-lang-option="es" aria-pressed="true">
+                  <span aria-hidden="true">🇪🇸</span>
+                  <span class="sr-only" lang="es">Español</span>
+                  <span class="sr-only" lang="en">Spanish</span>
+                </button>
+                <button class="nav__lang-option" type="button" data-lang-option="en" aria-pressed="false">
+                  <span aria-hidden="true">🇬🇧</span>
+                  <span class="sr-only" lang="es">Inglés</span>
+                  <span class="sr-only" lang="en">English</span>
+                </button>
+              </div>
               <div class="nav__weather" data-weather aria-live="polite">
                 <span class="nav__weather-icon" aria-hidden="true">–</span>
                 <span class="nav__weather-text" lang="es">Cargando clima…</span>
                 <span class="nav__weather-text" lang="en" hidden>Loading weather…</span>
               </div>
-              <button
-                class="nav__lang-toggle"
-                type="button"
-                data-lang-toggle
-                aria-label="Cambiar a inglés"
-                data-lang-aria-label-es="Cambiar a inglés"
-                data-lang-aria-label-en="Switch to Spanish"
-              >
-                <span lang="es">EN</span>
-                <span lang="en" hidden>ES</span>
-              </button>
             </div>
             <button
               class="nav__toggle"
