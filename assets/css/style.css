@@ -103,17 +103,17 @@ img {
 .nav__weather {
   display: inline-flex;
   align-items: center;
-  gap: 0.28rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
+  gap: 0.2rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
   color: var(--color-burdeos);
   white-space: normal;
   text-align: right;
-  max-width: clamp(10rem, 18vw, 12rem);
+  max-width: clamp(8rem, 14vw, 10rem);
 }
 
 .nav__weather-icon {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   line-height: 1;
 }
 
