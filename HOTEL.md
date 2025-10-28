@@ -33,6 +33,13 @@
 - Fotografías accesibles mediante lightbox con captions bilingües.
 - Contacto mantiene CTA `mailto` institucional y enlaces a canales de comunicación existentes.
 
+## Información en tiempo real (`info.html`)
+- Nueva sección bilingüe “Información” en el menú superior (desktop & móvil).
+- Hero con contexto y tarjetas dedicadas:
+  - Clima de Tarancón actualizado diariamente via Open-Meteo (temperatura, icono, descripción ES/EN).
+  - Agenda de eventos destacados en Tarancón y comarca con enlaces a fuentes oficiales.
+- Frontend (`assets/js/info.js`) consume `data/info.json` y adapta los textos al idioma seleccionado.
+
 ## Estilos (`assets/css/style.css`)
 - Variables de color y tipografías alineadas con el manual de identidad.
 - Componentes compartidos: hero, cards, navbar sticky + hamburguesa, bloques CTA, media-roll y versiones responsive para <960 px y <640 px.
@@ -45,14 +52,17 @@
 - `assets/villas/images`: renders de suites y residencias.
 - `assets/wellness/images`: material del spa y wellness.
 - Conversión general a WebP sin pérdida y actualización de referencias HTML/CSS; recursos originales en PNG se conservan donde el diseño los requiere.
+- Datos dinámicos: `data/info.json` (clima + agenda) actualizado mediante script.
 
 ## Infraestructura
 - Nginx sirve `/var/www/valdoriahotel` en `0.0.0.0:9085`.
 - Traefik con proveedor de fichero (`/root/traefik/dynamic/valdoria.yaml`) enruta al host via `172.17.0.1:9085`.
 - Subdominio `valdoria.nomadprompters.es` gestionado en Cloudflare y redirigido por Traefik.
+- Script `scripts/update-info.mjs` (Node 18+) para refrescar `data/info.json`. Pensado para lanzarse mediante cron o GitHub Actions diariamente a las 05:00 CET aprox.
 
 ## Pendientes
 - Sustituir imágenes temporales por renders oficiales definitivos.
 - Ajustar contenido final de `resort.html` (menú, copy, datos de contacto).
 - Confirmar emisión del certificado Let’s Encrypt en Traefik.
 - Validar comportamiento móvil del hero tras la optimización de `valdoria-drone.mp4` (autoplay, consumo de datos).
+- Conectar feed de eventos definitivo del Ayuntamiento de Tarancón y validar scraping/parseo.

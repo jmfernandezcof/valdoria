@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Valdoria Resort — Contacto Privado</title>
+    <title>Valdoria Resort — Información en tiempo real</title>
     <meta
       name="description"
-      content="Coordina una presentación privada del Valdoria Luxury Resort & Spa: renders, masterplan y roadmap operativo."
+      content="Consulta el clima de Tarancón y los eventos destacados de la comarca para planificar tu estancia en Valdoria Luxury Resort & Spa."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,7 +20,7 @@
     <link rel="icon" href="assets/brand/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-  <body data-page="contacto" data-lang="es">
+  <body data-page="info" data-lang="es">
     <div class="disclaimer" data-disclaimer aria-hidden="true">
       <div
         class="disclaimer__dialog"
@@ -58,6 +58,7 @@
         </div>
       </div>
     </div>
+
     <div class="page page--resort">
       <header class="subpage-hero">
         <nav class="nav" aria-label="Navegación principal">
@@ -116,11 +117,11 @@
               <span lang="es">Wellness &amp; Gastro</span>
               <span lang="en" hidden>Wellness &amp; Dining</span>
             </a>
-            <a class="nav__link" href="info.html">
+            <a class="nav__link" href="info.html" aria-current="page">
               <span lang="es">Información</span>
               <span lang="en" hidden>Info</span>
             </a>
-            <a class="nav__link nav__link--cta" href="contacto.html" aria-current="page">
+            <a class="nav__link nav__link--cta" href="contacto.html">
               <span lang="es">Contacto</span>
               <span lang="en" hidden>Contact</span>
             </a>
@@ -128,46 +129,57 @@
         </nav>
 
         <div class="subpage-hero__content">
-          <p class="subpage-hero__eyebrow" lang="es">Concierge Valdoria</p>
-          <p class="subpage-hero__eyebrow" lang="en" hidden>Valdoria Concierge</p>
-          <h1 class="subpage-hero__title" lang="es">Presentación privada</h1>
-          <h1 class="subpage-hero__title" lang="en" hidden>Private presentation</h1>
+          <p class="subpage-hero__eyebrow" lang="es">Tarancón hoy</p>
+          <p class="subpage-hero__eyebrow" lang="en" hidden>Tarancón today</p>
+          <h1 class="subpage-hero__title" lang="es">Clima y agenda en tiempo real</h1>
+          <h1 class="subpage-hero__title" lang="en" hidden>Live weather &amp; agenda</h1>
           <p class="subpage-hero__lead" lang="es">
-            Agenda una reunión confidencial para descubrir en detalle el masterplan, los renders arquitectónicos y la
-            propuesta operativa del resort.
+            Actualizamos cada día el clima de Tarancón y los eventos imprescindibles en la comarca para ayudarte a
+            planificar tu estancia en Valdoria.
           </p>
           <p class="subpage-hero__lead" lang="en" hidden>
-            Schedule a confidential meeting to review the master plan, architectural renderings and the resort’s
-            operational proposal in detail.
+            We refresh Tarancón’s weather and the most relevant local events every day so you can plan your Valdoria stay
+            with ease.
           </p>
-          <div class="subpage-hero__actions">
-            <a class="button button--primary" href="mailto:info@valdoriaresort.com">
-              <span lang="es">Escribir a Concierge</span>
-              <span lang="en" hidden>Email concierge</span>
-            </a>
-          </div>
         </div>
       </header>
 
       <main>
-        <section class="section section--intro" id="contacto">
-          <div class="section__inner">
-            <div class="cta-block">
-              <h2 lang="es">Solicitar presentación privada</h2>
-              <h2 lang="en" hidden>Request a private presentation</h2>
-              <p lang="es">
-                Coordina una reunión confidencial para revisar el masterplan, renders arquitectónicos y el roadmap
-                operativo de Valdoria Luxury Resort &amp; Spa.
-              </p>
-              <p lang="en" hidden>
-                Coordinate a confidential meeting to review Valdoria Luxury Resort &amp; Spa’s master plan, architectural
-                renders and operational roadmap.
-              </p>
-              <a class="button button--primary" href="mailto:info@valdoriaresort.com">
-                <span lang="es">Coordinar reunión</span>
-                <span lang="en" hidden>Arrange meeting</span>
-              </a>
-            </div>
+        <section class="section section--info-grid">
+          <div class="section__inner section__inner--wide info-grid">
+            <article class="info-card info-card--weather">
+              <header class="info-card__header">
+                <h2 lang="es">Clima en Tarancón</h2>
+                <h2 lang="en" hidden>Tarancón weather</h2>
+                <p class="info-card__timestamp" data-info-weather-updated lang="es">Actualizando clima…</p>
+                <p class="info-card__timestamp" data-info-weather-updated lang="en" hidden>Updating weather…</p>
+              </header>
+              <div class="info-card__body" data-info-weather>
+                <p class="info-card__status" lang="es">Conectando con el servicio meteorológico…</p>
+                <p class="info-card__status" lang="en" hidden>Retrieving the latest forecast…</p>
+              </div>
+              <footer class="info-card__footer">
+                <p lang="es">Fuente: Open-Meteo (actualización diaria automatizada).</p>
+                <p lang="en" hidden>Source: Open-Meteo (automated daily refresh).</p>
+              </footer>
+            </article>
+
+            <article class="info-card info-card--events">
+              <header class="info-card__header">
+                <h2 lang="es">Agenda destacada</h2>
+                <h2 lang="en" hidden>Featured agenda</h2>
+                <p class="info-card__timestamp" data-info-events-updated lang="es">Actualizando agenda…</p>
+                <p class="info-card__timestamp" data-info-events-updated lang="en" hidden>Updating agenda…</p>
+              </header>
+              <div class="info-card__body" data-info-events>
+                <p class="info-card__status" lang="es">Recopilando eventos de Tarancón y alrededores…</p>
+                <p class="info-card__status" lang="en" hidden>Collecting events in Tarancón and surroundings…</p>
+              </div>
+              <footer class="info-card__footer">
+                <p lang="es">Fuentes: Ayuntamiento de Tarancón, Turismo Castilla-La Mancha y entidades culturales locales.</p>
+                <p lang="en" hidden>Sources: Tarancón City Council, Castilla-La Mancha Tourism and local cultural boards.</p>
+              </footer>
+            </article>
           </div>
         </section>
       </main>
@@ -176,6 +188,27 @@
         <span>© 2025 Valdoria Luxury Resort &amp; Spa — Tarancón, Cuenca</span>
       </footer>
     </div>
+
+    <div
+      class="lightbox"
+      data-lightbox-modal
+      aria-hidden="true"
+      data-lang-aria-label-es="Visor de imágenes"
+      data-lang-aria-label-en="Image viewer"
+    >
+      <div class="lightbox__overlay" data-lightbox-close></div>
+      <figure class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="Visor de imágenes" tabindex="-1">
+        <button class="lightbox__close" type="button" data-lightbox-close>
+          <span aria-hidden="true">×</span>
+          <span class="sr-only" lang="es">Cerrar</span>
+          <span class="sr-only" lang="en">Close</span>
+        </button>
+        <img src="" alt="" data-lightbox-image />
+        <figcaption data-lightbox-caption hidden></figcaption>
+      </figure>
+    </div>
+
     <script src="assets/js/navigation.js"></script>
+    <script src="assets/js/info.js"></script>
   </body>
 </html>

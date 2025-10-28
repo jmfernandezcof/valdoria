@@ -1,0 +1,14 @@
+{
+  "updated_at": "2025-01-01T00:00:00Z",
+  "weather": {
+    "updated_at": "2025-01-01T00:00:00Z",
+    "temperature_c": null,
+    "description_es": "Información meteorológica no disponible.",
+    "description_en": "Weather information not available.",
+    "icon": "ℹ️"
+  },
+  "events": {
+    "updated_at": "2025-01-01T00:00:00Z",
+    "items": []
+  }
+}

@@ -7,6 +7,7 @@ Repositorio de información turística y de marca para alimentar el avatar digit
 - `tarancon.md`: Guía turística de Tarancón y alrededores inmediatos.
 - `castilla-la-mancha.md`: Información general de Castilla-La Mancha orientada a visitantes.
 - `heygen-brief.md`: Pautas y mensajes clave para configurar el avatar interactivo en HeyGen.
+- `../data/info.json`: Datos generados diariamente (clima + agenda) consumidos por la página `info.html`.
 
 ## Uso sugerido
 1. Consulta los ficheros temáticos para obtener contexto específico.
