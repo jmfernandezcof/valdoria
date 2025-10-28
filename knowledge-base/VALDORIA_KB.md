@@ -38,11 +38,6 @@
 - **Eventos privados:** Bodas boutique, retiros corporativos, presentaciones de producto con producción integral.
 - **Visuales:** Las imágenes de `experiencias.html` se muestran en lightbox bilingüe para revisar detalles a escala completa.
 
-## Información diaria (`info.html`)
-- Clima de Tarancón actualizado diariamente vía Open-Meteo (temperatura, icono, resumen ES/EN).
-- Agenda modular con eventos destacados en Tarancón y municipios cercanos utilizando feeds oficiales (Ayuntamiento, Turismo Castilla-La Mancha, entidades culturales).
-- Datos expuestos en `data/info.json` y renderizados por `assets/js/info.js` en función del idioma seleccionado en la interfaz.
-
 ## Servicios personalizados
 - Concierge 24/7, traslado en vehículo de alta gama desde Madrid (menos de 60 minutos).
 - Helipuerto cercano para llegadas privadas bajo demanda.
