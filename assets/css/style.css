@@ -100,22 +100,6 @@ img {
   row-gap: 0.35rem;
 }
 
-.nav__weather {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.2rem;
-  font-size: 0.66rem;
-  letter-spacing: 0.05em;
-  color: var(--color-burdeos);
-  white-space: normal;
-  text-align: right;
-  max-width: clamp(8rem, 14vw, 10rem);
-}
-
-.nav__weather-icon {
-  font-size: 0.85rem;
-  line-height: 1;
-}
 
 .nav__weather-text {
   display: inline-flex;
@@ -1133,13 +1117,6 @@ body.disclaimer-open {
     align-items: center;
     justify-content: flex-end;
     flex-wrap: wrap;
-  }
-
-  .nav__weather {
-    font-size: 0.64rem;
-    letter-spacing: 0.05em;
-    line-height: 1.25;
-    max-width: clamp(8rem, 16vw, 10rem);
   }
 
   .nav__locale {
