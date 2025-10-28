@@ -6,8 +6,8 @@
 - **Posicionamiento:** Resort boutique cinco estrellas superior, especializado en experiencias personalizadas para huéspedes de alto poder adquisitivo, eventos privados y wellness integral.
 
 ## Alojamiento
-- **Villas y suites:** 10 residencias independientes con piscina climatizada, terrazas panorámicas y jardines mediterráneos.
-- **Diseño:** Arquitectura orgánica inspirada en el viñedo manchego; materiales nobles (piedra, madera, cerámica artesanal).
+- **Villas y suites:** 8 residencias independientes con piscina climatizada, terrazas panorámicas y jardines de inspiración manchega.
+- **Diseño:** Arquitectura orgánica inspirada en los viñedos y la topografía conquense; materiales nobles (piedra, madera, cerámica artesanal).
 - **Tecnología invisible:** Domótica integrada, climatización zonificada, entretenimiento inmersivo.
 - **Servicios en villa:** Mayordomo dedicado, chef privado a solicitud, rituales wellness in situ, catas privadas.
 
@@ -17,23 +17,23 @@
 - **Wine & Cocktail Bar:** Carta de vinos boutique, coctelería de autor con botánicos manchegos, ambiente íntimo y música ambiental.
 - **Experiencias especiales:** Cenas del chef en bodegas subterráneas, picnic gourmet entre viñedos, desayuno slow con productos artesanos.
 
-## Wellness & Spa
 - **Valdoria Ritual Spa:** Circuitos hidrotermales privados, suites wellness para parejas o grupos reducidos, terapias holísticas.
 - **Programas:** Detox, longevidad, rendimiento deportivo, mindfulness y yoga al amanecer.
 - **Tratamientos signature:** Ritual de lavanda manchega, envolturas con arcillas de La Mancha, masaje con aceite de oliva premium.
+- Las imágenes destacadas en `wellness.html` se visualizan en un visor lightbox con captions bilingües.
 
-## Experiencias destacadas
 - **Curaduría sensorial:** Talleres de aromaterapia con flora local, catas olfativas, laboratorio de aceites esenciales.
 - **Outdoor:** Paseos en bicicleta eléctrica por viñedos, rutas ecuestres al atardecer, vuelos en globo sobre la comarca.
 - **Cultura:** Visitas privadas a bodegas históricas, talleres de alfarería y cerámica, rutas gastronómicas por Tarancón.
 - **Eventos privados:** Bodas boutique, retiros corporativos, presentaciones de producto con producción integral.
+- **Visuales:** Las imágenes de `experiencias.html` se abren en lightbox bilingüe para apreciar detalles en alta resolución.
 
 ## Servicios personalizados
 - Concierge 24/7, traslado en vehículo de alta gama desde Madrid (menos de 60 minutos).
 - Helipuerto cercano para llegadas privadas bajo demanda.
 - Equipo multilingüe (español, inglés, francés, alemán) especializado en hospitalidad de lujo.
 - Integración con experiencias partner (golf, enoturismo, patrimonio).
-- Overlay de bienvenida con vídeo legal (HeyGen) que informa que Valdoria es un proyecto conceptual; se reproduce con audio por defecto en desktop/móvil y permite silenciarlo vía controles compactos.
+- Overlay de bienvenida con vídeo legal (HeyGen) que informa que Valdoria es un proyecto conceptual; el clip se activa con el botón “Activar sonido” (que también pausa/reanuda) y ofrece acceso directo para entrar al sitio sin verlo completo.
 
 ## Instalaciones y capacidad para eventos
 - **Sala Mirador:** 120 m², vistas a viñedos, capacidad 60 pax banquete / 90 pax cóctel; equipamiento audiovisual integrado.
@@ -41,6 +41,7 @@
 - **Jardines Terra:** Espacio exterior modulable para bodas boutique y lanzamientos (hasta 150 pax).
 - **Bodega subterránea:** Degustaciones privadas o cenas del chef (12 pax máximo) con control de temperatura.
 - **Producción interna:** Decoración floral, iluminación arquitectónica, sonido ambiental, streaming privado bajo demanda.
+- **Galería Villas:** En `villas.html` los renders se abren en nueva ventana para revisar textura y acabados.
 
 ## Tecnología & conectividad
 - Wi-Fi 6 de alta velocidad en todo el resort (redes separadas para huéspedes, eventos y staff).
