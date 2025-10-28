@@ -2,7 +2,247 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileViewportQuery = window.matchMedia('(max-width: 960px)');
   const isMobileViewport = () => mobileViewportQuery.matches;
 
+  const supportedLanguages = ['es', 'en'];
+  const defaultLanguage = 'es';
+  const languageStorageKey = 'valdoriaLang';
+
+  const navToggleLabels = {
+    open: { es: 'Abrir menú', en: 'Open menu' },
+    close: { es: 'Cerrar menú', en: 'Close menu' },
+  };
+
+  const audioButtonLabels = {
+    play: { es: 'Activar sonido', en: 'Enable sound' },
+    pause: { es: 'Pausar video', en: 'Pause video' },
+  };
+
+  const weatherStrings = {
+    city: { es: 'Tarancón', en: 'Tarancón' },
+    loading: { es: 'Cargando clima…', en: 'Loading weather…' },
+    unavailable: { es: 'No disponible', en: 'Unavailable' },
+    unknown: { es: 'Condición desconocida', en: 'Unknown conditions' },
+  };
+
+  const weatherCodeMap = {
+    0: { icon: '☀️', es: 'Cielo despejado', en: 'Clear sky' },
+    1: { icon: '🌤️', es: 'Casi despejado', en: 'Mostly clear' },
+    2: { icon: '⛅️', es: 'Parcialmente nublado', en: 'Partly cloudy' },
+    3: { icon: '☁️', es: 'Cubierto', en: 'Overcast' },
+    45: { icon: '🌫️', es: 'Niebla', en: 'Fog' },
+    48: { icon: '🌫️', es: 'Niebla con escarcha', en: 'Freezing fog' },
+    51: { icon: '🌦️', es: 'Llovizna ligera', en: 'Light drizzle' },
+    53: { icon: '🌦️', es: 'Llovizna moderada', en: 'Moderate drizzle' },
+    55: { icon: '🌧️', es: 'Llovizna densa', en: 'Dense drizzle' },
+    56: { icon: '🌧️', es: 'Llovizna helada ligera', en: 'Light freezing drizzle' },
+    57: { icon: '🌧️', es: 'Llovizna helada intensa', en: 'Heavy freezing drizzle' },
+    61: { icon: '🌧️', es: 'Lluvia ligera', en: 'Light rain' },
+    63: { icon: '🌧️', es: 'Lluvia moderada', en: 'Moderate rain' },
+    65: { icon: '🌧️', es: 'Lluvia intensa', en: 'Heavy rain' },
+    66: { icon: '🌧️', es: 'Lluvia helada ligera', en: 'Light freezing rain' },
+    67: { icon: '🌧️', es: 'Lluvia helada intensa', en: 'Heavy freezing rain' },
+    71: { icon: '❄️', es: 'Nieve ligera', en: 'Light snow' },
+    73: { icon: '❄️', es: 'Nieve moderada', en: 'Moderate snow' },
+    75: { icon: '❄️', es: 'Nieve intensa', en: 'Heavy snow' },
+    77: { icon: '❄️', es: 'Granizo fino', en: 'Snow grains' },
+    80: { icon: '🌦️', es: 'Chubascos ligeros', en: 'Light showers' },
+    81: { icon: '🌧️', es: 'Chubascos moderados', en: 'Moderate showers' },
+    82: { icon: '🌧️', es: 'Chubascos intensos', en: 'Heavy showers' },
+    85: { icon: '❄️', es: 'Chubascos de nieve', en: 'Snow showers' },
+    86: { icon: '❄️', es: 'Chubascos fuertes de nieve', en: 'Heavy snow showers' },
+    95: { icon: '⛈️', es: 'Tormenta', en: 'Thunderstorm' },
+    96: { icon: '⛈️', es: 'Tormenta con granizo ligero', en: 'Thunderstorm with light hail' },
+    99: { icon: '⛈️', es: 'Tormenta con granizo intenso', en: 'Thunderstorm with heavy hail' },
+  };
+
+  const htmlElement = document.documentElement;
+  const langToggleButton = document.querySelector('[data-lang-toggle]');
+  const weatherElement = document.querySelector('[data-weather]');
+  const weatherTextNodes = weatherElement
+    ? {
+        es: weatherElement.querySelector('.nav__weather-text[lang="es"]'),
+        en: weatherElement.querySelector('.nav__weather-text[lang="en"]'),
+      }
+    : null;
+  const weatherIconNode = weatherElement ? weatherElement.querySelector('.nav__weather-icon') : null;
+
+  let storedLanguage = null;
+  try {
+    storedLanguage = window.localStorage ? localStorage.getItem(languageStorageKey) : null;
+  } catch {
+    storedLanguage = null;
+  }
+
+  let currentLanguage = supportedLanguages.includes(storedLanguage || '') ? storedLanguage : defaultLanguage;
   let navControls = [];
+  let disclaimerControls = null;
+  let weatherData = null;
+  let weatherIsLoading = Boolean(weatherElement);
+  let weatherFailed = false;
+
+  const getWeatherEntry = (code) => weatherCodeMap[code] || null;
+
+  const renderWeather = () => {
+    if (!weatherElement || !weatherTextNodes) {
+      return;
+    }
+
+    supportedLanguages.forEach((lang) => {
+      const node = weatherTextNodes[lang];
+      if (!node) {
+        return;
+      }
+
+      let text = weatherStrings.loading[lang];
+      if (!weatherIsLoading) {
+        if (weatherFailed || !weatherData) {
+          text = `${weatherStrings.city[lang]} · ${weatherStrings.unavailable[lang]}`;
+        } else {
+          const { temperature, code } = weatherData;
+          const entry = getWeatherEntry(code);
+          const description = entry ? entry[lang] : weatherStrings.unknown[lang];
+          const temperatureText = typeof temperature === 'number' ? `${temperature}°C` : '--';
+          text = `${weatherStrings.city[lang]} · ${temperatureText} · ${description}`;
+        }
+      }
+
+      node.textContent = text;
+    });
+
+    if (weatherIconNode) {
+      let icon = '–';
+      if (!weatherIsLoading) {
+        if (weatherFailed || !weatherData) {
+          icon = '⚠️';
+        } else {
+          icon = (getWeatherEntry(weatherData.code) || {}).icon || 'ℹ️';
+        }
+      }
+      weatherIconNode.textContent = icon;
+    }
+  };
+
+  const fetchWeather = () => {
+    if (!weatherElement || typeof fetch !== 'function') {
+      return;
+    }
+
+    weatherIsLoading = true;
+    weatherFailed = false;
+    renderWeather();
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 10000);
+
+    fetch(
+      'https://api.open-meteo.com/v1/forecast?latitude=40.0107&longitude=-3.0061&current=temperature_2m,weather_code&timezone=Europe%2FMadrid',
+      { signal: controller.signal }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Weather request failed');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const current = data && data.current;
+        if (!current || typeof current.temperature_2m !== 'number' || typeof current.weather_code !== 'number') {
+          throw new Error('Weather payload invalid');
+        }
+
+        weatherData = {
+          temperature: Math.round(current.temperature_2m),
+          code: current.weather_code,
+        };
+        weatherFailed = false;
+      })
+      .catch(() => {
+        weatherData = null;
+        weatherFailed = true;
+      })
+      .finally(() => {
+        weatherIsLoading = false;
+        renderWeather();
+        window.clearTimeout(timeoutId);
+      });
+  };
+
+  const toggleLanguageElements = (lang) => {
+    document.querySelectorAll('[lang]').forEach((element) => {
+      if (element === htmlElement) {
+        return;
+      }
+      const elementLang = element.getAttribute('lang');
+      if (!supportedLanguages.includes(elementLang)) {
+        return;
+      }
+      element.hidden = elementLang !== lang;
+    });
+  };
+
+  const updateAriaLabels = (lang) => {
+    document.querySelectorAll('[data-lang-aria-label-es]').forEach((element) => {
+      const key = lang === 'es' ? 'langAriaLabelEs' : 'langAriaLabelEn';
+      const label = element.dataset[key];
+      if (label) {
+        element.setAttribute('aria-label', label);
+      }
+    });
+  };
+
+  const updateMenuLabels = () => {
+    navControls.forEach(({ nav, toggle }) => {
+      const isOpen = nav.classList.contains('nav--open');
+      const stateKey = isOpen ? 'close' : 'open';
+      const label = navToggleLabels[stateKey][currentLanguage];
+      if (label) {
+        toggle.setAttribute('aria-label', label);
+      }
+    });
+  };
+
+  const setLanguage = (lang, { persist = true } = {}) => {
+    if (!supportedLanguages.includes(lang)) {
+      lang = defaultLanguage;
+    }
+
+    currentLanguage = lang;
+    htmlElement.lang = lang;
+    document.body.setAttribute('data-lang', lang);
+
+    toggleLanguageElements(lang);
+    updateAriaLabels(lang);
+    updateMenuLabels();
+
+    if (disclaimerControls && typeof disclaimerControls.updateAudioButtonLabel === 'function') {
+      disclaimerControls.updateAudioButtonLabel();
+    }
+
+    renderWeather();
+
+    if (persist) {
+      try {
+        if (window.localStorage) {
+          localStorage.setItem(languageStorageKey, lang);
+        }
+      } catch {
+        // Ignore storage errors (private mode, etc.)
+      }
+    }
+  };
+
+  let navControlsInitialized = false;
+
+  const syncMenusWithViewport = () => {
+    if (!navControlsInitialized) {
+      return;
+    }
+    navControls.forEach(({ setState }) => setState(false));
+  };
+
+  const updateBodyState = () => {
+    const anyOpen = navControls.some(({ nav }) => nav.classList.contains('nav--open'));
+    document.body.classList.toggle('menu-open', anyOpen);
+  };
 
   const disclaimerElement = document.querySelector('[data-disclaimer]');
   const disclaimerStorageKey = 'valdoriaDisclaimerSeen';
@@ -14,42 +254,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let keydownHandler = null;
     let videoEndedHandler = null;
     let audioClickHandler = null;
-    let audioEnabled = false;
-    let audioUnlockHandler = null;
+    let isVideoPlaying = false;
 
     const updateAudioButtonLabel = () => {
       if (!audioButton) {
         return;
       }
-      audioButton.textContent = audioEnabled ? 'Silenciar sonido' : 'Activar sonido';
-      audioButton.setAttribute('aria-pressed', String(audioEnabled));
-    };
-
-    const removeAudioUnlockHandler = () => {
-      if (!audioUnlockHandler) {
-        return;
-      }
-      window.removeEventListener('pointerdown', audioUnlockHandler);
-      window.removeEventListener('keydown', audioUnlockHandler);
-      audioUnlockHandler = null;
-    };
-
-    const registerAudioUnlockHandler = () => {
-      if (audioUnlockHandler) {
-        return;
-      }
-      audioUnlockHandler = (event) => {
-        if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') {
-          return;
+      const stateKey = isVideoPlaying ? 'pause' : 'play';
+      supportedLanguages.forEach((lang) => {
+        const span = audioButton.querySelector(`[lang="${lang}"]`);
+        if (span) {
+          span.textContent = audioButtonLabels[stateKey][lang];
         }
-        removeAudioUnlockHandler();
-        enableVideoSound(true);
-      };
-      window.addEventListener('pointerdown', audioUnlockHandler);
-      window.addEventListener('keydown', audioUnlockHandler);
+      });
+      audioButton.setAttribute('aria-pressed', String(isVideoPlaying));
     };
 
-    const muteVideo = (pausePlayback = false) => {
+    const resetVideo = (pausePlayback = true) => {
       if (!video) {
         return;
       }
@@ -60,11 +281,11 @@ document.addEventListener('DOMContentLoaded', () => {
         video.pause();
         video.currentTime = 0;
       }
-      audioEnabled = false;
+      isVideoPlaying = false;
       updateAudioButtonLabel();
     };
 
-    const enableVideoSound = (resetPlayback = false) => {
+    const playVideoWithSound = (resetPlayback = false) => {
       if (!video) {
         return Promise.resolve(false);
       }
@@ -81,21 +302,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (playPromise && typeof playPromise.then === 'function') {
         return playPromise
           .then(() => {
-            audioEnabled = true;
+            isVideoPlaying = true;
             updateAudioButtonLabel();
-            removeAudioUnlockHandler();
             return true;
           })
           .catch(() => {
-            muteVideo(true);
-            registerAudioUnlockHandler();
+            resetVideo(true);
             return false;
           });
       }
 
-      audioEnabled = !video.muted;
+      isVideoPlaying = !video.paused;
       updateAudioButtonLabel();
-      return Promise.resolve(audioEnabled);
+      return Promise.resolve(isVideoPlaying);
     };
 
     const closeDisclaimer = () => {
@@ -116,8 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
         audioButton.removeEventListener('click', audioClickHandler);
         audioClickHandler = null;
       }
-      removeAudioUnlockHandler();
-      audioEnabled = false;
+      isVideoPlaying = false;
 
       window.setTimeout(() => {
         if (video) {
@@ -130,10 +348,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const showDisclaimer = () => {
       disclaimerElement.setAttribute('aria-hidden', 'false');
       document.body.classList.add('disclaimer-open');
-      audioEnabled = false;
-      updateAudioButtonLabel();
+      resetVideo(true);
       if (video) {
-        videoEndedHandler = () => closeDisclaimer();
+        videoEndedHandler = () => {
+          resetVideo(true);
+        };
         video.addEventListener('ended', videoEndedHandler, { once: true });
       }
       if (skipButton) {
@@ -141,16 +360,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (audioButton && video) {
         audioClickHandler = () => {
-          if (audioEnabled) {
-            muteVideo(false);
+          if (isVideoPlaying) {
+            video.pause();
+            resetVideo(false);
           } else {
-            enableVideoSound(false);
+            playVideoWithSound(true);
           }
         };
         audioButton.addEventListener('click', audioClickHandler);
-      }
-      if (video) {
-        enableVideoSound(true);
       }
       keydownHandler = (event) => {
         if (event.key === 'Escape') {
@@ -160,16 +377,15 @@ document.addEventListener('DOMContentLoaded', () => {
       document.addEventListener('keydown', keydownHandler);
     };
 
+    disclaimerControls = {
+      updateAudioButtonLabel,
+    };
+
     if (sessionStorage.getItem(disclaimerStorageKey)) {
       disclaimerElement.remove();
     } else {
       showDisclaimer();
     }
-  }
-
-  function updateBodyState() {
-    const anyOpen = navControls.some(({ nav }) => nav.classList.contains('nav--open'));
-    document.body.classList.toggle('menu-open', anyOpen);
   }
 
   navControls = Array.from(document.querySelectorAll('.nav'))
@@ -182,13 +398,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       toggle.setAttribute('aria-expanded', toggle.getAttribute('aria-expanded') || 'false');
-      toggle.setAttribute('aria-label', toggle.getAttribute('aria-label') || 'Abrir menú');
 
       const setState = (isOpen) => {
         const shouldOpen = isOpen && isMobileViewport();
         nav.classList.toggle('nav--open', shouldOpen);
         toggle.setAttribute('aria-expanded', String(shouldOpen));
-        toggle.setAttribute('aria-label', shouldOpen ? 'Cerrar menú' : 'Abrir menú');
+        const stateKey = shouldOpen ? 'close' : 'open';
+        const label = navToggleLabels[stateKey][currentLanguage];
+        if (label) {
+          toggle.setAttribute('aria-label', label);
+        }
         menu.setAttribute('aria-hidden', isMobileViewport() ? (shouldOpen ? 'false' : 'true') : 'false');
         updateBodyState();
       };
@@ -220,13 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .filter(Boolean);
 
-  if (!navControls.length) {
-    return;
-  }
-
-  const syncMenusWithViewport = () => {
-    navControls.forEach(({ setState }) => setState(false));
-  };
+  navControlsInitialized = Boolean(navControls.length);
 
   syncMenusWithViewport();
 
@@ -250,4 +463,22 @@ document.addEventListener('DOMContentLoaded', () => {
       activeControl.closeMenu(true);
     }
   });
+
+  if (langToggleButton) {
+    langToggleButton.addEventListener('click', () => {
+      const nextLanguage = currentLanguage === 'es' ? 'en' : 'es';
+      setLanguage(nextLanguage);
+    });
+  }
+
+  setLanguage(currentLanguage, { persist: false });
+  if (disclaimerControls && typeof disclaimerControls.updateAudioButtonLabel === 'function') {
+    disclaimerControls.updateAudioButtonLabel();
+  }
+
+  if (weatherElement) {
+    renderWeather();
+    fetchWeather();
+    window.setInterval(fetchWeather, 30 * 60 * 1000);
+  }
 });

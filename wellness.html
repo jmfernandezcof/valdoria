@@ -20,12 +20,18 @@
     <link rel="icon" href="assets/brand/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-  <body>
+  <body data-page="wellness">
     <div class="disclaimer" data-disclaimer aria-hidden="true">
-      <div class="disclaimer__dialog" role="dialog" aria-modal="true" aria-label="Aviso importante">
+      <div
+        class="disclaimer__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Aviso importante"
+        data-lang-aria-label-es="Aviso importante"
+        data-lang-aria-label-en="Important notice"
+      >
         <video
           class="disclaimer__video"
-          autoplay
           playsinline
           preload="auto"
           controlslist="nodownload noplaybackrate nofullscreen"
@@ -33,15 +39,22 @@
         >
           <source src="assets/brand/videos/disclaimer.webm" type="video/webm" />
           <source src="assets/brand/videos/disclaimer.mp4" type="video/mp4" />
-          Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin
-          reservas reales.
+          <span lang="es">Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin reservas reales.</span>
+          <span lang="en" hidden>Your browser does not support autoplay. Valdoria Hotel is a conceptual project with no real reservations available.</span>
         </video>
         <div class="disclaimer__marquee">
-          <p class="disclaimer__message">Valdoria Hotel es un proyecto conceptual. El contenido es demostrativo y no existen reservas reales disponibles.</p>
+          <p class="disclaimer__message" lang="es">Valdoria Hotel es un proyecto conceptual. El contenido es demostrativo y no existen reservas reales disponibles.</p>
+          <p class="disclaimer__message" lang="en" hidden>Valdoria Hotel is a conceptual project. All content is demonstrative and no real reservations are available.</p>
         </div>
         <div class="disclaimer__controls">
-          <button class="disclaimer__button disclaimer__button--ghost" type="button" data-disclaimer-audio>Silenciar sonido</button>
-          <button class="disclaimer__button disclaimer__button--accent" type="button" data-disclaimer-skip>Entrar al sitio</button>
+          <button class="disclaimer__button disclaimer__button--ghost" type="button" data-disclaimer-audio>
+            <span lang="es">Activar sonido</span>
+            <span lang="en" hidden>Enable sound</span>
+          </button>
+          <button class="disclaimer__button disclaimer__button--accent" type="button" data-disclaimer-skip>
+            <span lang="es">Entrar al sitio</span>
+            <span lang="en" hidden>Enter site</span>
+          </button>
         </div>
       </div>
     </div>
@@ -52,29 +65,79 @@
             <span class="nav__logo">Valdoria</span>
             <span class="nav__subtitle">Luxury Resort &amp; Spa</span>
           </a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Abrir menú" aria-controls="nav-menu">
-            <span class="nav__toggle-line"></span>
-            <span class="nav__toggle-line"></span>
-            <span class="nav__toggle-line"></span>
-          </button>
+          <div class="nav__actions">
+            <div class="nav__meta">
+              <div class="nav__weather" data-weather aria-live="polite">
+                <span class="nav__weather-icon" aria-hidden="true">–</span>
+                <span class="nav__weather-text" lang="es">Cargando clima…</span>
+                <span class="nav__weather-text" lang="en" hidden>Loading weather…</span>
+              </div>
+              <button
+                class="nav__lang-toggle"
+                type="button"
+                data-lang-toggle
+                aria-label="Cambiar a inglés"
+                data-lang-aria-label-es="Cambiar a inglés"
+                data-lang-aria-label-en="Switch to Spanish"
+              >
+                <span lang="es">EN</span>
+                <span lang="en" hidden>ES</span>
+              </button>
+            </div>
+            <button
+              class="nav__toggle"
+              type="button"
+              aria-expanded="false"
+              aria-label="Abrir menú"
+              aria-controls="nav-menu"
+            >
+              <span class="nav__toggle-line"></span>
+              <span class="nav__toggle-line"></span>
+              <span class="nav__toggle-line"></span>
+            </button>
+          </div>
           <div class="nav__links" id="nav-menu">
-            <a class="nav__link" href="resort.html">Resort</a>
-            <a class="nav__link" href="experiencias.html">Experiencias</a>
-            <a class="nav__link" href="villas.html">Villas</a>
-            <a class="nav__link" href="wellness.html" aria-current="page">Wellness &amp; Gastro</a>
-            <a class="nav__link nav__link--cta" href="contacto.html">Contacto</a>
+            <a class="nav__link" href="resort.html">
+              <span lang="es">Resort</span>
+              <span lang="en" hidden>Resort</span>
+            </a>
+            <a class="nav__link" href="experiencias.html">
+              <span lang="es">Experiencias</span>
+              <span lang="en" hidden>Experiences</span>
+            </a>
+            <a class="nav__link" href="villas.html">
+              <span lang="es">Villas</span>
+              <span lang="en" hidden>Villas</span>
+            </a>
+            <a class="nav__link" href="wellness.html" aria-current="page">
+              <span lang="es">Wellness &amp; Gastro</span>
+              <span lang="en" hidden>Wellness &amp; Dining</span>
+            </a>
+            <a class="nav__link nav__link--cta" href="contacto.html">
+              <span lang="es">Contacto</span>
+              <span lang="en" hidden>Contact</span>
+            </a>
           </div>
         </nav>
 
         <div class="subpage-hero__content">
-          <p class="subpage-hero__eyebrow">Valdoria Ritual Spa</p>
-          <h1 class="subpage-hero__title">Wellness &amp;<wbr /> Gastronomía</h1>
-          <p class="subpage-hero__lead">
+          <p class="subpage-hero__eyebrow" lang="es">Valdoria Ritual Spa</p>
+          <p class="subpage-hero__eyebrow" lang="en" hidden>Valdoria Ritual Spa</p>
+          <h1 class="subpage-hero__title" lang="es">Wellness &amp;<wbr /> Gastronomía</h1>
+          <h1 class="subpage-hero__title" lang="en" hidden>Wellness &amp;<wbr /> Gastronomy</h1>
+          <p class="subpage-hero__lead" lang="es">
             Tratamientos de autor, circuitos hidrotermales privados y enogastronomía inmersiva para quienes viven el
             lujo como un camino de bienestar integral.
           </p>
+          <p class="subpage-hero__lead" lang="en" hidden>
+            Signature treatments, private hydrothermal circuits and immersive eno-gastronomy for those who experience
+            luxury as a path to holistic wellbeing.
+          </p>
           <div class="subpage-hero__actions">
-            <a class="button button--primary" href="contacto.html">Diseñar programa a medida</a>
+            <a class="button button--primary" href="contacto.html">
+              <span lang="es">Diseñar programa a medida</span>
+              <span lang="en" hidden>Design a tailored programme</span>
+            </a>
           </div>
         </div>
       </header>
@@ -82,46 +145,78 @@
       <main>
         <section class="section" id="wellness">
           <div class="section__inner section__inner--wide">
-            <h2>Spa, Wellness &amp; Gastronomía</h2>
-            <p>
+            <h2 lang="es">Spa, Wellness &amp; Gastronomía</h2>
+            <h2 lang="en" hidden>Spa, Wellness &amp; Gastronomy</h2>
+            <p lang="es">
               Programas personalizados que honran la cultura manchega y el bienestar contemporáneo. Tratamientos de
               autor, enogastronomía y experiencias inmersivas para quienes viven el lujo como un arte.
+            </p>
+            <p lang="en" hidden>
+              Personalised programmes that honour Manchegan culture and contemporary wellness. Signature treatments,
+              eno-gastronomy and immersive experiences for guests who live luxury as an art form.
             </p>
             <div class="resort-details">
               <article class="resort-details__card">
                 <figure class="resort-details__media">
-                  <img src="assets/wellness/images/Spa.webp" alt="Piscina termal del Valdoria Ritual Spa" />
+                  <a href="assets/wellness/images/Spa.webp" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/wellness/images/Spa.webp" alt="Piscina termal del Valdoria Ritual Spa" />
+                  </a>
                 </figure>
-                <h3>Valdoria Ritual Spa</h3>
-                <ul>
+                <h3 lang="es">Valdoria Ritual Spa</h3>
+                <h3 lang="en" hidden>Valdoria Ritual Spa</h3>
+                <ul lang="es">
                   <li>Rituales holísticos inspirados en la flora aromática de la región.</li>
                   <li>Suites wellness privadas con circuito hidrotermal y terapias a medida.</li>
                   <li>Terapeutas especializados en medicina integrativa, yoga y mindfulness.</li>
                   <li>Programas detox, longevidad y rendimiento diseñados por expertos internacionales.</li>
                 </ul>
+                <ul lang="en" hidden>
+                  <li>Holistic rituals inspired by the region’s aromatic flora.</li>
+                  <li>Private wellness suites with hydrothermal circuits and tailored therapies.</li>
+                  <li>Therapists specialised in integrative medicine, yoga and mindfulness.</li>
+                  <li>Detox, longevity and performance programmes crafted by international experts.</li>
+                </ul>
               </article>
               <article class="resort-details__card">
                 <figure class="resort-details__media">
-                  <img src="assets/experiencias/images/Restaurant.webp" alt="Restaurante Valdoria con mesa preparada para maridaje" />
+                  <a href="assets/experiencias/images/Restaurant.webp" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/experiencias/images/Restaurant.webp" alt="Restaurante Valdoria con mesa preparada para maridaje" />
+                  </a>
                 </figure>
-                <h3>Gastronomía sensorial</h3>
-                <ul>
+                <h3 lang="es">Gastronomía sensorial</h3>
+                <h3 lang="en" hidden>Sensory gastronomy</h3>
+                <ul lang="es">
                   <li>Cocina manchega reinterpretada con técnicas contemporáneas.</li>
                   <li>Menús maridados con vinos de autor del viñedo Valdoria y bodegas invitadas.</li>
                   <li>Experiencias inmersivas: cenas en bodegas subterráneas y mesas del chef privadas.</li>
                   <li>Huerto orgánico propio y despensa de productores locales seleccionados.</li>
                 </ul>
+                <ul lang="en" hidden>
+                  <li>Manchegan cuisine reimagined with contemporary techniques.</li>
+                  <li>Menus paired with signature Valdoria wines and selected guest wineries.</li>
+                  <li>Immersive experiences: dinners in underground cellars and private chef’s tables.</li>
+                  <li>Own organic garden and a pantry curated from selected local producers.</li>
+                </ul>
               </article>
               <article class="resort-details__card">
                 <figure class="resort-details__media">
-                  <img src="assets/experiencias/images/Bar.webp" alt="Coctelería Valdoria con barra y ambiente cálido" />
+                  <a href="assets/experiencias/images/Bar.webp" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/experiencias/images/Bar.webp" alt="Coctelería Valdoria con barra y ambiente cálido" />
+                  </a>
                 </figure>
-                <h3>Wine &amp; Cocktail Bar</h3>
-                <ul>
+                <h3 lang="es">Wine &amp; Cocktail Bar</h3>
+                <h3 lang="en" hidden>Wine &amp; Cocktail Bar</h3>
+                <ul lang="es">
                   <li>Carta de vinos de terroir Valdoria y etiquetas boutique seleccionadas por nuestro sommelier.</li>
                   <li>Coctelería de autor inspirada en botánicos manchegos y destilados artesanales.</li>
                   <li>Maridajes guiados al atardecer con música ambiente y luz tenue entre barricas.</li>
                   <li>Reservados privados para encuentros íntimos en un entorno sereno y relajado.</li>
+                </ul>
+                <ul lang="en" hidden>
+                  <li>Wine list featuring Valdoria terroir labels and boutique selections curated by our sommelier.</li>
+                  <li>Signature mixology inspired by Manchegan botanicals and artisanal spirits.</li>
+                  <li>Guided sunset pairings with ambient music and soft lighting among the barrels.</li>
+                  <li>Private lounges for intimate gatherings in a serene, relaxing atmosphere.</li>
                 </ul>
               </article>
             </div>
@@ -133,6 +228,7 @@
         <span>© 2025 Valdoria Luxury Resort &amp; Spa — Tarancón, Cuenca</span>
       </footer>
     </div>
+
     <script src="assets/js/navigation.js"></script>
   </body>
 </html>

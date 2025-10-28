@@ -24,12 +24,18 @@
     <link rel="icon" href="assets/brand/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-  <body>
+  <body data-page="villas">
     <div class="disclaimer" data-disclaimer aria-hidden="true">
-      <div class="disclaimer__dialog" role="dialog" aria-modal="true" aria-label="Aviso importante">
+      <div
+        class="disclaimer__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Aviso importante"
+        data-lang-aria-label-es="Aviso importante"
+        data-lang-aria-label-en="Important notice"
+      >
         <video
           class="disclaimer__video"
-          autoplay
           playsinline
           preload="auto"
           controlslist="nodownload noplaybackrate nofullscreen"
@@ -37,15 +43,22 @@
         >
           <source src="assets/brand/videos/disclaimer.webm" type="video/webm" />
           <source src="assets/brand/videos/disclaimer.mp4" type="video/mp4" />
-          Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin
-          reservas reales.
+          <span lang="es">Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin reservas reales.</span>
+          <span lang="en" hidden>Your browser does not support autoplay. Valdoria Hotel is a conceptual project with no real reservations available.</span>
         </video>
         <div class="disclaimer__marquee">
-          <p class="disclaimer__message">Valdoria Hotel es un proyecto conceptual. El contenido es demostrativo y no existen reservas reales disponibles.</p>
+          <p class="disclaimer__message" lang="es">Valdoria Hotel es un proyecto conceptual. El contenido es demostrativo y no existen reservas reales disponibles.</p>
+          <p class="disclaimer__message" lang="en" hidden>Valdoria Hotel is a conceptual project. All content is demonstrative and no real reservations are available.</p>
         </div>
         <div class="disclaimer__controls">
-          <button class="disclaimer__button disclaimer__button--ghost" type="button" data-disclaimer-audio>Silenciar sonido</button>
-          <button class="disclaimer__button disclaimer__button--accent" type="button" data-disclaimer-skip>Entrar al sitio</button>
+          <button class="disclaimer__button disclaimer__button--ghost" type="button" data-disclaimer-audio>
+            <span lang="es">Activar sonido</span>
+            <span lang="en" hidden>Enable sound</span>
+          </button>
+          <button class="disclaimer__button disclaimer__button--accent" type="button" data-disclaimer-skip>
+            <span lang="es">Entrar al sitio</span>
+            <span lang="en" hidden>Enter site</span>
+          </button>
         </div>
       </div>
     </div>
@@ -56,26 +69,73 @@
             <span class="nav__logo">Valdoria</span>
             <span class="nav__subtitle">Luxury Resort &amp; Spa</span>
           </a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Abrir menú" aria-controls="nav-menu">
-            <span class="nav__toggle-line"></span>
-            <span class="nav__toggle-line"></span>
-            <span class="nav__toggle-line"></span>
-          </button>
+          <div class="nav__actions">
+            <div class="nav__meta">
+              <div class="nav__weather" data-weather aria-live="polite">
+                <span class="nav__weather-icon" aria-hidden="true">–</span>
+                <span class="nav__weather-text" lang="es">Cargando clima…</span>
+                <span class="nav__weather-text" lang="en" hidden>Loading weather…</span>
+              </div>
+              <button
+                class="nav__lang-toggle"
+                type="button"
+                data-lang-toggle
+                aria-label="Cambiar a inglés"
+                data-lang-aria-label-es="Cambiar a inglés"
+                data-lang-aria-label-en="Switch to Spanish"
+              >
+                <span lang="es">EN</span>
+                <span lang="en" hidden>ES</span>
+              </button>
+            </div>
+            <button
+              class="nav__toggle"
+              type="button"
+              aria-expanded="false"
+              aria-label="Abrir menú"
+              aria-controls="nav-menu"
+            >
+              <span class="nav__toggle-line"></span>
+              <span class="nav__toggle-line"></span>
+              <span class="nav__toggle-line"></span>
+            </button>
+          </div>
           <div class="nav__links" id="nav-menu">
-            <a class="nav__link" href="resort.html">Resort</a>
-            <a class="nav__link" href="experiencias.html">Experiencias</a>
-            <a class="nav__link" href="villas.html" aria-current="page">Villas</a>
-            <a class="nav__link" href="wellness.html">Wellness &amp; Gastro</a>
-            <a class="nav__link nav__link--cta" href="contacto.html">Contacto</a>
+            <a class="nav__link" href="resort.html">
+              <span lang="es">Resort</span>
+              <span lang="en" hidden>Resort</span>
+            </a>
+            <a class="nav__link" href="experiencias.html">
+              <span lang="es">Experiencias</span>
+              <span lang="en" hidden>Experiences</span>
+            </a>
+            <a class="nav__link" href="villas.html" aria-current="page">
+              <span lang="es">Villas</span>
+              <span lang="en" hidden>Villas</span>
+            </a>
+            <a class="nav__link" href="wellness.html">
+              <span lang="es">Wellness &amp; Gastro</span>
+              <span lang="en" hidden>Wellness &amp; Dining</span>
+            </a>
+            <a class="nav__link nav__link--cta" href="contacto.html">
+              <span lang="es">Contacto</span>
+              <span lang="en" hidden>Contact</span>
+            </a>
           </div>
         </nav>
 
         <div class="subpage-hero__content">
-          <p class="subpage-hero__eyebrow">Villas Valdoria</p>
-          <h1 class="subpage-hero__title">El arte de habitar<wbr /> el silencio</h1>
-          <p class="subpage-hero__lead">
+          <p class="subpage-hero__eyebrow" lang="es">Villas Valdoria</p>
+          <p class="subpage-hero__eyebrow" lang="en" hidden>Valdoria Villas</p>
+          <h1 class="subpage-hero__title" lang="es">El arte de habitar<wbr /> el silencio</h1>
+          <h1 class="subpage-hero__title" lang="en" hidden>The art of inhabiting<wbr /> silence</h1>
+          <p class="subpage-hero__lead" lang="es">
             Privacidad, diseño y naturaleza. Cada villa de Valdoria es una obra maestra arquitectónica inspirada en las
             ondulaciones de los viñedos manchegos, donde luz natural y materiales nobles dialogan con el paisaje.
+          </p>
+          <p class="subpage-hero__lead" lang="en" hidden>
+            Privacy, design and nature. Each Valdoria villa is an architectural masterpiece inspired by the rolling
+            Manchegan vineyards, where natural light and noble materials dialogue with the landscape.
           </p>
         </div>
       </header>
@@ -84,67 +144,111 @@
         <section class="section section--gallery" aria-label="Galería de Villas Valdoria">
           <div class="villa-gallery" role="group" aria-label="Renders de Villas Valdoria">
             <figure class="villa-gallery__item">
-              <img src="assets/villas/images/Suite1.webp" alt="Vista interior de la suite principal Valdoria" />
+              <a href="assets/villas/images/Suite1.webp" target="_blank" rel="noopener noreferrer">
+                <img src="assets/villas/images/Suite1.webp" alt="Vista interior de la suite principal Valdoria" />
+              </a>
             </figure>
             <figure class="villa-gallery__item">
-              <img src="assets/villas/images/Suite2.webp" alt="Área social con chimenea en villa Valdoria" />
+              <a href="assets/villas/images/Suite2.webp" target="_blank" rel="noopener noreferrer">
+                <img src="assets/villas/images/Suite2.webp" alt="Área social con chimenea en villa Valdoria" />
+              </a>
             </figure>
             <figure class="villa-gallery__item">
-              <img src="assets/villas/images/suite3.webp" alt="Terraza panorámica con piscina privada en villa Valdoria" />
+              <a href="assets/villas/images/suite3.webp" target="_blank" rel="noopener noreferrer">
+                <img src="assets/villas/images/suite3.webp" alt="Terraza panorámica con piscina privada en villa Valdoria" />
+              </a>
             </figure>
           </div>
         </section>
 
         <section class="section section--intro">
           <div class="section__inner">
-            <h2>Privacidad, diseño y naturaleza</h2>
-            <p>
+            <h2 lang="es">Privacidad, diseño y naturaleza</h2>
+            <h2 lang="en" hidden>Privacy, design and nature</h2>
+            <p lang="es">
               Espacios amplios bañados por la luz, patios ajardinados y texturas nobles —piedra, madera y cerámica
               artesanal— que prolongan la esencia manchega en cada estancia. Las Villas Valdoria reinterpretan el lujo
               boutique desde la calma absoluta.
+            </p>
+            <p lang="en" hidden>
+              Generous spaces bathed in light, landscaped patios and noble textures—stone, wood and handcrafted
+              ceramics—that extend the Manchegan essence through every room. Valdoria Villas reinterpret boutique luxury
+              from a place of absolute calm.
             </p>
           </div>
         </section>
 
         <section class="section section--soft" id="villas">
           <div class="section__inner section__inner--wide">
-            <h2>Villas Valdoria, lujo silencioso</h2>
-            <p>
+            <h2 lang="es">Villas Valdoria, lujo silencioso</h2>
+            <h2 lang="en" hidden>Valdoria Villas, quiet luxury</h2>
+            <p lang="es">
               Diseñadas para adaptarse a tu ritmo, las residencias combinan atmósferas sensoriales, tecnología discreta
               y hospitalidad a medida.
             </p>
+            <p lang="en" hidden>
+              Designed to match your pace, each residence blends sensorial atmospheres, discreet technology and bespoke
+              hospitality.
+            </p>
             <div class="resort-details">
               <article class="resort-details__card">
-                <h3>Un refugio sensorial</h3>
-                <p>
+                <h3 lang="es">Un refugio sensorial</h3>
+                <h3 lang="en" hidden>A sensorial refuge</h3>
+                <p lang="es">
                   Arquitectura orgánica que abraza el entorno y convierte el silencio en experiencia multisensorial.
                 </p>
-                <ul>
+                <p lang="en" hidden>
+                  Organic architecture that embraces the landscape and turns silence into a multisensory experience.
+                </p>
+                <ul lang="es">
                   <li>Piscinas privadas con borde infinito y vistas al valle.</li>
                   <li>Jardines mediterráneos con lavanda, almendros y esculturas naturales.</li>
                   <li>Chimeneas interiores, terrazas panorámicas y luz filtrada por celosías artesanales.</li>
                 </ul>
+                <ul lang="en" hidden>
+                  <li>Private infinity pools with open views across the valley.</li>
+                  <li>Mediterranean gardens with lavender, almond trees and natural sculptures.</li>
+                  <li>Indoor fireplaces, panoramic terraces and light filtered through handcrafted latticework.</li>
+                </ul>
               </article>
               <article class="resort-details__card">
-                <h3>Tecnología invisible</h3>
-                <p>
+                <h3 lang="es">Tecnología invisible</h3>
+                <h3 lang="en" hidden>Invisible technology</h3>
+                <p lang="es">
                   Innovación discreta que acompaña el confort sin alterar la estética ni la serenidad de la villa.
                 </p>
-                <ul>
+                <p lang="en" hidden>
+                  Discreet innovation that enhances comfort without disrupting the villa’s serenity or aesthetic.
+                </p>
+                <ul lang="es">
                   <li>Domótica integral con escenas personalizadas de iluminación y sonido.</li>
                   <li>Climatización zonificada y sistemas de eficiencia energética.</li>
                   <li>Conectividad total y entretenimiento inmersivo integrados en el diseño.</li>
                 </ul>
+                <ul lang="en" hidden>
+                  <li>Whole-home automation with personalised lighting and sound scenes.</li>
+                  <li>Zoned climate control and energy-efficiency systems.</li>
+                  <li>Total connectivity and immersive entertainment seamlessly woven into the design.</li>
+                </ul>
               </article>
               <article class="resort-details__card">
-                <h3>Servicio personalizado</h3>
-                <p>
+                <h3 lang="es">Servicio personalizado</h3>
+                <h3 lang="en" hidden>Personalised service</h3>
+                <p lang="es">
                   Un equipo de concierge privado anticipa cada detalle para vivir Valdoria a medida de tus deseos.
                 </p>
-                <ul>
+                <p lang="en" hidden>
+                  A private concierge team anticipates every detail so you can live Valdoria exactly as you desire.
+                </p>
+                <ul lang="es">
                   <li>Mayordomo dedicado y chef a domicilio con propuestas de autor.</li>
                   <li>Terapias wellness in-villa, baños de sonido y programas holísticos.</li>
                   <li>Catas bajo las estrellas y rutas ecuestres entre viñedos manchegos.</li>
+                </ul>
+                <ul lang="en" hidden>
+                  <li>Dedicated butler and in-villa chef with signature menus.</li>
+                  <li>In-villa wellness therapies, sound baths and holistic programmes.</li>
+                  <li>Star-lit tastings and equestrian routes through Manchegan vineyards.</li>
                 </ul>
               </article>
             </div>
@@ -154,12 +258,20 @@
         <section class="section section--intro">
           <div class="section__inner">
             <div class="cta-block">
-              <h2>Descubre tu villa ideal</h2>
-              <p>
+              <h2 lang="es">Descubre tu villa ideal</h2>
+              <h2 lang="en" hidden>Discover your ideal villa</h2>
+              <p lang="es">
                 Coordina una presentación privada para explorar renders, planos y disponibilidad exclusiva de Villas
                 Valdoria.
               </p>
-              <a class="button button--primary" href="contacto.html">Reservar experiencia privada &rarr;</a>
+              <p lang="en" hidden>
+                Arrange a private presentation to explore renders, floor plans and the exclusive availability of Valdoria
+                Villas.
+              </p>
+              <a class="button button--primary" href="contacto.html">
+                <span lang="es">Reservar experiencia privada &rarr;</span>
+                <span lang="en" hidden>Book a private experience &rarr;</span>
+              </a>
             </div>
           </div>
         </section>

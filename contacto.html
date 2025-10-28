@@ -20,12 +20,18 @@
     <link rel="icon" href="assets/brand/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-  <body>
+  <body data-page="contacto">
     <div class="disclaimer" data-disclaimer aria-hidden="true">
-      <div class="disclaimer__dialog" role="dialog" aria-modal="true" aria-label="Aviso importante">
+      <div
+        class="disclaimer__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Aviso importante"
+        data-lang-aria-label-es="Aviso importante"
+        data-lang-aria-label-en="Important notice"
+      >
         <video
           class="disclaimer__video"
-          autoplay
           playsinline
           preload="auto"
           controlslist="nodownload noplaybackrate nofullscreen"
@@ -33,15 +39,22 @@
         >
           <source src="assets/brand/videos/disclaimer.webm" type="video/webm" />
           <source src="assets/brand/videos/disclaimer.mp4" type="video/mp4" />
-          Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin
-          reservas reales.
+          <span lang="es">Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin reservas reales.</span>
+          <span lang="en" hidden>Your browser does not support autoplay. Valdoria Hotel is a conceptual project with no real reservations available.</span>
         </video>
         <div class="disclaimer__marquee">
-          <p class="disclaimer__message">Valdoria Hotel es un proyecto conceptual. El contenido es demostrativo y no existen reservas reales disponibles.</p>
+          <p class="disclaimer__message" lang="es">Valdoria Hotel es un proyecto conceptual. El contenido es demostrativo y no existen reservas reales disponibles.</p>
+          <p class="disclaimer__message" lang="en" hidden>Valdoria Hotel is a conceptual project. All content is demonstrative and no real reservations are available.</p>
         </div>
         <div class="disclaimer__controls">
-          <button class="disclaimer__button disclaimer__button--ghost" type="button" data-disclaimer-audio>Silenciar sonido</button>
-          <button class="disclaimer__button disclaimer__button--accent" type="button" data-disclaimer-skip>Entrar al sitio</button>
+          <button class="disclaimer__button disclaimer__button--ghost" type="button" data-disclaimer-audio>
+            <span lang="es">Activar sonido</span>
+            <span lang="en" hidden>Enable sound</span>
+          </button>
+          <button class="disclaimer__button disclaimer__button--accent" type="button" data-disclaimer-skip>
+            <span lang="es">Entrar al sitio</span>
+            <span lang="en" hidden>Enter site</span>
+          </button>
         </div>
       </div>
     </div>
@@ -52,29 +65,79 @@
             <span class="nav__logo">Valdoria</span>
             <span class="nav__subtitle">Luxury Resort &amp; Spa</span>
           </a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Abrir menú" aria-controls="nav-menu">
-            <span class="nav__toggle-line"></span>
-            <span class="nav__toggle-line"></span>
-            <span class="nav__toggle-line"></span>
-          </button>
+          <div class="nav__actions">
+            <div class="nav__meta">
+              <div class="nav__weather" data-weather aria-live="polite">
+                <span class="nav__weather-icon" aria-hidden="true">–</span>
+                <span class="nav__weather-text" lang="es">Cargando clima…</span>
+                <span class="nav__weather-text" lang="en" hidden>Loading weather…</span>
+              </div>
+              <button
+                class="nav__lang-toggle"
+                type="button"
+                data-lang-toggle
+                aria-label="Cambiar a inglés"
+                data-lang-aria-label-es="Cambiar a inglés"
+                data-lang-aria-label-en="Switch to Spanish"
+              >
+                <span lang="es">EN</span>
+                <span lang="en" hidden>ES</span>
+              </button>
+            </div>
+            <button
+              class="nav__toggle"
+              type="button"
+              aria-expanded="false"
+              aria-label="Abrir menú"
+              aria-controls="nav-menu"
+            >
+              <span class="nav__toggle-line"></span>
+              <span class="nav__toggle-line"></span>
+              <span class="nav__toggle-line"></span>
+            </button>
+          </div>
           <div class="nav__links" id="nav-menu">
-            <a class="nav__link" href="resort.html">Resort</a>
-            <a class="nav__link" href="experiencias.html">Experiencias</a>
-            <a class="nav__link" href="villas.html">Villas</a>
-            <a class="nav__link" href="wellness.html">Wellness &amp; Gastro</a>
-            <a class="nav__link nav__link--cta" href="contacto.html" aria-current="page">Contacto</a>
+            <a class="nav__link" href="resort.html">
+              <span lang="es">Resort</span>
+              <span lang="en" hidden>Resort</span>
+            </a>
+            <a class="nav__link" href="experiencias.html">
+              <span lang="es">Experiencias</span>
+              <span lang="en" hidden>Experiences</span>
+            </a>
+            <a class="nav__link" href="villas.html">
+              <span lang="es">Villas</span>
+              <span lang="en" hidden>Villas</span>
+            </a>
+            <a class="nav__link" href="wellness.html">
+              <span lang="es">Wellness &amp; Gastro</span>
+              <span lang="en" hidden>Wellness &amp; Dining</span>
+            </a>
+            <a class="nav__link nav__link--cta" href="contacto.html" aria-current="page">
+              <span lang="es">Contacto</span>
+              <span lang="en" hidden>Contact</span>
+            </a>
           </div>
         </nav>
 
         <div class="subpage-hero__content">
-          <p class="subpage-hero__eyebrow">Concierge Valdoria</p>
-          <h1 class="subpage-hero__title">Presentación privada</h1>
-          <p class="subpage-hero__lead">
+          <p class="subpage-hero__eyebrow" lang="es">Concierge Valdoria</p>
+          <p class="subpage-hero__eyebrow" lang="en" hidden>Valdoria Concierge</p>
+          <h1 class="subpage-hero__title" lang="es">Presentación privada</h1>
+          <h1 class="subpage-hero__title" lang="en" hidden>Private presentation</h1>
+          <p class="subpage-hero__lead" lang="es">
             Agenda una reunión confidencial para descubrir en detalle el masterplan, los renders arquitectónicos y la
             propuesta operativa del resort.
           </p>
+          <p class="subpage-hero__lead" lang="en" hidden>
+            Schedule a confidential meeting to review the master plan, architectural renderings and the resort’s
+            operational proposal in detail.
+          </p>
           <div class="subpage-hero__actions">
-            <a class="button button--primary" href="mailto:info@valdoriaresort.com">Escribir a Concierge</a>
+            <a class="button button--primary" href="mailto:info@valdoriaresort.com">
+              <span lang="es">Escribir a Concierge</span>
+              <span lang="en" hidden>Email concierge</span>
+            </a>
           </div>
         </div>
       </header>
@@ -83,12 +146,20 @@
         <section class="section section--intro" id="contacto">
           <div class="section__inner">
             <div class="cta-block">
-              <h2>Solicitar presentación privada</h2>
-              <p>
+              <h2 lang="es">Solicitar presentación privada</h2>
+              <h2 lang="en" hidden>Request a private presentation</h2>
+              <p lang="es">
                 Coordina una reunión confidencial para revisar el masterplan, renders arquitectónicos y el roadmap
                 operativo de Valdoria Luxury Resort &amp; Spa.
               </p>
-              <a class="button button--primary" href="mailto:info@valdoriaresort.com">Coordinar reunión</a>
+              <p lang="en" hidden>
+                Coordinate a confidential meeting to review Valdoria Luxury Resort &amp; Spa’s master plan, architectural
+                renders and operational roadmap.
+              </p>
+              <a class="button button--primary" href="mailto:info@valdoriaresort.com">
+                <span lang="es">Coordinar reunión</span>
+                <span lang="en" hidden>Arrange meeting</span>
+              </a>
             </div>
           </div>
         </section>

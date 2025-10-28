@@ -78,6 +78,66 @@ img {
   color: var(--color-oro);
 }
 
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-left: auto;
+}
+
+.nav__meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  row-gap: 0.35rem;
+}
+
+.nav__weather {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--color-burdeos);
+  white-space: nowrap;
+}
+
+.nav__weather-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.nav__weather-text {
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav__lang-toggle {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(74, 31, 31, 0.28);
+  background: rgba(245, 243, 238, 0.92);
+  color: var(--color-burdeos);
+  cursor: pointer;
+  transition: background 0.2s ease, border 0.2s ease, color 0.2s ease;
+}
+
+.nav__lang-toggle:hover {
+  background: rgba(74, 31, 31, 0.08);
+  border-color: rgba(74, 31, 31, 0.45);
+}
+
+.nav__lang-toggle:focus-visible {
+  outline: 2px solid rgba(39, 77, 126, 0.55);
+  outline-offset: 3px;
+}
+
 .nav__links {
   display: flex;
   align-items: center;
@@ -98,7 +158,6 @@ img {
   background: rgba(245, 243, 238, 0.82);
   cursor: pointer;
   transition: background 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
-  margin-left: auto;
   flex-shrink: 0;
 }
 
@@ -804,6 +863,28 @@ body.disclaimer-open {
     box-shadow: 0 18px 42px -28px rgba(39, 77, 126, 0.35);
   }
 
+  .nav__links {
+    order: 1;
+    margin-left: auto;
+  }
+
+  .nav__actions {
+    order: 2;
+    margin-left: 1.5rem;
+    gap: 1.2rem;
+  }
+
+  .nav__meta {
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+
+  .nav__weather {
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
   .nav__toggle {
     display: none;
   }
@@ -885,6 +966,27 @@ body.disclaimer-open {
   .nav__toggle {
     display: inline-flex;
     z-index: 901;
+  }
+
+  .nav__actions {
+    gap: 0.6rem;
+  }
+
+  .nav__meta {
+    gap: 0.5rem;
+    max-width: min(220px, 45vw);
+  }
+
+  .nav__weather {
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  .nav__lang-toggle {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.66rem;
   }
 
   .nav__links {
@@ -1043,6 +1145,16 @@ body.disclaimer-open {
 
   .nav {
     padding: 0.85rem 1.1rem;
+  }
+
+  .nav__meta {
+    max-width: 180px;
+    gap: 0.45rem;
+  }
+
+  .nav__weather {
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
   }
 
   .nav__links {

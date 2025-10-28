@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -21,12 +20,18 @@
     <link rel="icon" href="assets/brand/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-  <body>
+  <body data-page="home">
     <div class="disclaimer" data-disclaimer aria-hidden="true">
-      <div class="disclaimer__dialog" role="dialog" aria-modal="true" aria-label="Aviso importante">
+      <div
+        class="disclaimer__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Aviso importante"
+        data-lang-aria-label-es="Aviso importante"
+        data-lang-aria-label-en="Important notice"
+      >
         <video
           class="disclaimer__video"
-          autoplay
           playsinline
           preload="auto"
           controlslist="nodownload noplaybackrate nofullscreen"
@@ -34,20 +39,86 @@
         >
           <source src="assets/brand/videos/disclaimer.webm" type="video/webm" />
           <source src="assets/brand/videos/disclaimer.mp4" type="video/mp4" />
-          Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin
-          reservas reales.
+          <span lang="es">Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin reservas reales.</span>
+          <span lang="en" hidden>Your browser does not support autoplay. Valdoria Hotel is a conceptual project with no real reservations available.</span>
         </video>
         <div class="disclaimer__marquee">
-          <p class="disclaimer__message">Valdoria Hotel es un proyecto conceptual. El contenido es demostrativo y no existen reservas reales disponibles.</p>
+          <p class="disclaimer__message" lang="es">Valdoria Hotel es un proyecto conceptual. El contenido es demostrativo y no existen reservas reales disponibles.</p>
+          <p class="disclaimer__message" lang="en" hidden>Valdoria Hotel is a conceptual project. All content is demonstrative and no real reservations are available.</p>
         </div>
         <div class="disclaimer__controls">
-          <button class="disclaimer__button disclaimer__button--ghost" type="button" data-disclaimer-audio>Silenciar sonido</button>
-          <button class="disclaimer__button disclaimer__button--accent" type="button" data-disclaimer-skip>Entrar al sitio</button>
+          <button class="disclaimer__button disclaimer__button--ghost" type="button" data-disclaimer-audio>
+            <span lang="es">Activar sonido</span>
+            <span lang="en" hidden>Enable sound</span>
+          </button>
+          <button class="disclaimer__button disclaimer__button--accent" type="button" data-disclaimer-skip>
+            <span lang="es">Entrar al sitio</span>
+            <span lang="en" hidden>Enter site</span>
+          </button>
         </div>
       </div>
     </div>
     <div class="page">
       <header class="hero">
+        <nav class="nav" aria-label="Navegación principal">
+          <a class="nav__brand" href="index.html">
+            <span class="nav__logo">Valdoria</span>
+            <span class="nav__subtitle">Luxury Resort &amp; Spa</span>
+          </a>
+          <div class="nav__actions">
+            <div class="nav__meta">
+              <div class="nav__weather" data-weather aria-live="polite">
+                <span class="nav__weather-icon" aria-hidden="true">–</span>
+                <span class="nav__weather-text" lang="es">Cargando clima…</span>
+                <span class="nav__weather-text" lang="en" hidden>Loading weather…</span>
+              </div>
+              <button
+                class="nav__lang-toggle"
+                type="button"
+                data-lang-toggle
+                aria-label="Cambiar a inglés"
+                data-lang-aria-label-es="Cambiar a inglés"
+                data-lang-aria-label-en="Switch to Spanish"
+              >
+                <span lang="es">EN</span>
+                <span lang="en" hidden>ES</span>
+              </button>
+            </div>
+            <button
+              class="nav__toggle"
+              type="button"
+              aria-expanded="false"
+              aria-label="Abrir menú"
+              aria-controls="nav-menu"
+            >
+              <span class="nav__toggle-line"></span>
+              <span class="nav__toggle-line"></span>
+              <span class="nav__toggle-line"></span>
+            </button>
+          </div>
+          <div class="nav__links" id="nav-menu">
+            <a class="nav__link" href="resort.html">
+              <span lang="es">Resort</span>
+              <span lang="en" hidden>Resort</span>
+            </a>
+            <a class="nav__link" href="experiencias.html">
+              <span lang="es">Experiencias</span>
+              <span lang="en" hidden>Experiences</span>
+            </a>
+            <a class="nav__link" href="villas.html">
+              <span lang="es">Villas</span>
+              <span lang="en" hidden>Villas</span>
+            </a>
+            <a class="nav__link" href="wellness.html">
+              <span lang="es">Wellness &amp; Gastro</span>
+              <span lang="en" hidden>Wellness &amp; Dining</span>
+            </a>
+            <a class="nav__link nav__link--cta" href="contacto.html">
+              <span lang="es">Contacto</span>
+              <span lang="en" hidden>Contact</span>
+            </a>
+          </div>
+        </nav>
         <div class="hero__media" role="presentation"></div>
         <div class="hero__overlay" aria-hidden="true"></div>
         <div class="hero__content">
@@ -55,11 +126,13 @@
           <img
             class="hero__logo"
             src="assets/brand/Logo.webp"
-            alt="Valdoria Luxury Resort & Spa"
+            alt="Valdoria Luxury Resort &amp; Spa"
           />
-          <p class="hero__claim">El lujo como forma de silencio.</p>
+          <p class="hero__claim" lang="es">El lujo como forma de silencio.</p>
+          <p class="hero__claim" lang="en" hidden>Luxury as a form of silence.</p>
           <a class="button button--primary" href="resort.html">
-            Ver Resort
+            <span lang="es">Ver resort</span>
+            <span lang="en" hidden>Explore resort</span>
           </a>
         </div>
       </header>
@@ -67,11 +140,15 @@
       <main>
         <section class="section section--intro">
           <div class="section__inner">
-            <h2>El lujo como forma de silencio.</h2>
-            <p>
-              Presentamos Valdoria, un santuario boutique en las colinas manchegas diseñado para
-              el congreso internacional de hospitalidad. Accede a la propuesta completa y la
-              colección de renders exclusivos en la página del resort.
+            <h2 lang="es">El lujo como forma de silencio.</h2>
+            <h2 lang="en" hidden>Luxury as a form of silence.</h2>
+            <p lang="es">
+              Presentamos Valdoria, un santuario boutique en las colinas manchegas diseñado para el congreso internacional de hospitalidad.
+              Accede a la propuesta completa y la colección de renders exclusivos en la página del resort.
+            </p>
+            <p lang="en" hidden>
+              Introducing Valdoria, a boutique sanctuary in the Manchegan hills crafted for the international hospitality congress.
+              Visit the resort page to explore the full proposal and the exclusive render gallery.
             </p>
           </div>
         </section>
