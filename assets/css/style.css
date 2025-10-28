@@ -103,15 +103,15 @@ img {
 .nav__weather {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
+  gap: 0.28rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
   color: var(--color-burdeos);
   white-space: nowrap;
 }
 
 .nav__weather-icon {
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1;
 }
 
@@ -1134,8 +1134,8 @@ body.disclaimer-open {
   }
 
   .nav__weather {
-    font-size: 0.68rem;
-    letter-spacing: 0.06em;
+    font-size: 0.64rem;
+    letter-spacing: 0.05em;
     white-space: normal;
     line-height: 1.25;
   }
@@ -1318,8 +1318,8 @@ body.disclaimer-open {
   }
 
   .nav__weather {
-    font-size: 0.6rem;
-    letter-spacing: 0.04em;
+    font-size: 0.58rem;
+    letter-spacing: 0.036em;
     text-align: right;
   }
 
