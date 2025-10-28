@@ -24,7 +24,7 @@
     <link rel="icon" href="assets/brand/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-  <body data-page="villas">
+  <body data-page="villas" data-lang="es">
     <div class="disclaimer" data-disclaimer aria-hidden="true">
       <div
         class="disclaimer__dialog"
@@ -152,17 +152,32 @@
         <section class="section section--gallery" aria-label="Galería de Villas Valdoria">
           <div class="villa-gallery" role="group" aria-label="Renders de Villas Valdoria">
             <figure class="villa-gallery__item">
-              <a href="assets/villas/images/Suite1.webp" target="_blank" rel="noopener noreferrer">
+              <a
+                href="assets/villas/images/Suite1.webp"
+                data-lightbox-trigger
+                data-lightbox-caption-es="Suite principal Valdoria"
+                data-lightbox-caption-en="Valdoria master suite"
+              >
                 <img src="assets/villas/images/Suite1.webp" alt="Vista interior de la suite principal Valdoria" />
               </a>
             </figure>
             <figure class="villa-gallery__item">
-              <a href="assets/villas/images/Suite2.webp" target="_blank" rel="noopener noreferrer">
+              <a
+                href="assets/villas/images/Suite2.webp"
+                data-lightbox-trigger
+                data-lightbox-caption-es="Área social con chimenea"
+                data-lightbox-caption-en="Lounge with fireplace"
+              >
                 <img src="assets/villas/images/Suite2.webp" alt="Área social con chimenea en villa Valdoria" />
               </a>
             </figure>
             <figure class="villa-gallery__item">
-              <a href="assets/villas/images/suite3.webp" target="_blank" rel="noopener noreferrer">
+              <a
+                href="assets/villas/images/suite3.webp"
+                data-lightbox-trigger
+                data-lightbox-caption-es="Terraza panorámica con piscina"
+                data-lightbox-caption-en="Panoramic terrace with pool"
+              >
                 <img src="assets/villas/images/suite3.webp" alt="Terraza panorámica con piscina privada en villa Valdoria" />
               </a>
             </figure>
@@ -288,6 +303,24 @@
       <footer class="footer">
         <span>© 2025 Valdoria Luxury Resort &amp; Spa — Tarancón, Cuenca</span>
       </footer>
+    </div>
+    <div
+      class="lightbox"
+      data-lightbox-modal
+      aria-hidden="true"
+      data-lang-aria-label-es="Visor de imágenes"
+      data-lang-aria-label-en="Image viewer"
+    >
+      <div class="lightbox__overlay" data-lightbox-close></div>
+      <figure class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="Visor de imágenes" tabindex="-1">
+        <button class="lightbox__close" type="button" data-lightbox-close>
+          <span aria-hidden="true">×</span>
+          <span class="sr-only" lang="es">Cerrar</span>
+          <span class="sr-only" lang="en">Close</span>
+        </button>
+        <img src="" alt="" data-lightbox-image />
+        <figcaption data-lightbox-caption hidden></figcaption>
+      </figure>
     </div>
     <script src="assets/js/navigation.js"></script>
   </body>

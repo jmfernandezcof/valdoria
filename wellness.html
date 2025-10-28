@@ -20,7 +20,7 @@
     <link rel="icon" href="assets/brand/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-  <body data-page="wellness">
+  <body data-page="wellness" data-lang="es">
     <div class="disclaimer" data-disclaimer aria-hidden="true">
       <div
         class="disclaimer__dialog"
@@ -166,7 +166,12 @@
             <div class="resort-details">
               <article class="resort-details__card">
                 <figure class="resort-details__media">
-                  <a href="assets/wellness/images/Spa.webp" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="assets/wellness/images/Spa.webp"
+                    data-lightbox-trigger
+                    data-lightbox-caption-es="Piscina termal del Valdoria Ritual Spa"
+                    data-lightbox-caption-en="Thermal pool at Valdoria Ritual Spa"
+                  >
                     <img src="assets/wellness/images/Spa.webp" alt="Piscina termal del Valdoria Ritual Spa" />
                   </a>
                 </figure>
@@ -187,7 +192,12 @@
               </article>
               <article class="resort-details__card">
                 <figure class="resort-details__media">
-                  <a href="assets/experiencias/images/Restaurant.webp" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="assets/experiencias/images/Restaurant.webp"
+                    data-lightbox-trigger
+                    data-lightbox-caption-es="Mesa preparada en el restaurante Valdoria"
+                    data-lightbox-caption-en="Chef’s table at Valdoria restaurant"
+                  >
                     <img src="assets/experiencias/images/Restaurant.webp" alt="Restaurante Valdoria con mesa preparada para maridaje" />
                   </a>
                 </figure>
@@ -208,7 +218,12 @@
               </article>
               <article class="resort-details__card">
                 <figure class="resort-details__media">
-                  <a href="assets/experiencias/images/Bar.webp" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="assets/experiencias/images/Bar.webp"
+                    data-lightbox-trigger
+                    data-lightbox-caption-es="Wine &amp; Cocktail Bar Valdoria"
+                    data-lightbox-caption-en="Valdoria Wine &amp; Cocktail Bar"
+                  >
                     <img src="assets/experiencias/images/Bar.webp" alt="Coctelería Valdoria con barra y ambiente cálido" />
                   </a>
                 </figure>
@@ -235,6 +250,25 @@
       <footer class="footer">
         <span>© 2025 Valdoria Luxury Resort &amp; Spa — Tarancón, Cuenca</span>
       </footer>
+    </div>
+
+    <div
+      class="lightbox"
+      data-lightbox-modal
+      aria-hidden="true"
+      data-lang-aria-label-es="Visor de imágenes"
+      data-lang-aria-label-en="Image viewer"
+    >
+      <div class="lightbox__overlay" data-lightbox-close></div>
+      <figure class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="Visor de imágenes" tabindex="-1">
+        <button class="lightbox__close" type="button" data-lightbox-close>
+          <span aria-hidden="true">×</span>
+          <span class="sr-only" lang="es">Cerrar</span>
+          <span class="sr-only" lang="en">Close</span>
+        </button>
+        <img src="" alt="" data-lightbox-image />
+        <figcaption data-lightbox-caption hidden></figcaption>
+      </figure>
     </div>
 
     <script src="assets/js/navigation.js"></script>

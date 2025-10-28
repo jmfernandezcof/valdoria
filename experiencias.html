@@ -20,7 +20,7 @@
     <link rel="icon" href="assets/brand/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
-  <body data-page="experiencias">
+  <body data-page="experiencias" data-lang="es">
     <div class="disclaimer" data-disclaimer aria-hidden="true">
       <div
         class="disclaimer__dialog"
@@ -134,12 +134,12 @@
           <h1 class="subpage-hero__title" lang="es">Experiencias Curadas</h1>
           <h1 class="subpage-hero__title" lang="en" hidden>Curated Experiences</h1>
           <p class="subpage-hero__lead" lang="es">
-            Un recorrido sensorial diseñado para el viajero que valora el tiempo, la calma y la autenticidad.
-            Ritualizamos cada momento en conexión con la arquitectura orgánica y la esencia mediterránea de La Mancha.
+            Un recorrido sensorial para quien valora el tiempo, la calma y la autenticidad. Coreografiamos cada momento
+            junto a la arquitectura orgánica de Valdoria y el horizonte silencioso de Cuenca.
           </p>
           <p class="subpage-hero__lead" lang="en" hidden>
-            A sensorial journey designed for travellers who cherish time, calm and authenticity.
-            We ritualise every moment in harmony with organic architecture and the Mediterranean essence of La Mancha.
+            A sensorial journey for travellers who treasure time, calm and authenticity. We choreograph every moment
+            around Valdoria’s organic architecture and the quiet horizons of Cuenca.
           </p>
         </div>
       </header>
@@ -150,18 +150,24 @@
             <h2 lang="es">Colección Valdoria</h2>
             <h2 lang="en" hidden>Valdoria Collection</h2>
             <p lang="es">
-              Un recorrido sensorial diseñado para el viajero que valora el tiempo, la calma y la autenticidad. Cada
-              espacio, servicio y ritual nace de la fusión entre la arquitectura orgánica y el carácter mediterráneo de
-              La Mancha.
+              La Colección Valdoria condensa rituales privados, hospitalidad a medida y sabores de Castilla-La Mancha.
+              Cada espacio y servicio se inspira en la luz de la meseta conquense, invitando a habitar el silencio con
+              propósito.
             </p>
             <p lang="en" hidden>
-              A sensorial route crafted for guests who value time, calm and authenticity. Every space, service and ritual
-              emerges from the fusion between organic architecture and the Mediterranean character of La Mancha.
+              The Valdoria Collection distils private rituals, bespoke hospitality and the flavours of Castilla-La
+              Mancha. Every space and service draws on the light of the Cuenca plateau, inviting guests to inhabit
+              silence with intent.
             </p>
             <div class="experience-grid">
               <article class="experience-card">
                 <figure class="experience-card__media">
-                  <a href="assets/villas/images/Suite1.webp" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="assets/villas/images/Suite1.webp"
+                    data-lightbox-trigger
+                    data-lightbox-caption-es="Suites &amp; Villas"
+                    data-lightbox-caption-en="Suites &amp; Villas"
+                  >
                     <img src="assets/villas/images/Suite1.webp" alt="Vista interior de una suite Valdoria" />
                   </a>
                 </figure>
@@ -169,18 +175,23 @@
                   <h3 lang="es">Suites &amp; Villas</h3>
                   <h3 lang="en" hidden>Suites &amp; Villas</h3>
                   <p lang="es">
-                    Diez residencias escultóricas con piscinas climatizadas, jardines secretos y servicio de mayordomo
+                    Ocho residencias escultóricas con piscinas climatizadas, jardines secretos y servicio de mayordomo
                     personal.
                   </p>
                   <p lang="en" hidden>
-                    Ten sculptural residences with heated pools, secret gardens and the attentive care of a dedicated
+                    Eight sculptural residences with heated pools, secret gardens and the attentive care of a dedicated
                     butler.
                   </p>
                 </div>
               </article>
               <article class="experience-card">
                 <figure class="experience-card__media">
-                  <a href="assets/wellness/images/Spa.webp" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="assets/wellness/images/Spa.webp"
+                    data-lightbox-trigger
+                    data-lightbox-caption-es="Spa &amp; Wellness"
+                    data-lightbox-caption-en="Spa &amp; Wellness"
+                  >
                     <img src="assets/wellness/images/Spa.webp" alt="Área de spa Valdoria con alberca termal de mármol" />
                   </a>
                 </figure>
@@ -199,7 +210,12 @@
               </article>
               <article class="experience-card">
                 <figure class="experience-card__media">
-                  <a href="assets/experiencias/images/Restaurant.webp" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="assets/experiencias/images/Restaurant.webp"
+                    data-lightbox-trigger
+                    data-lightbox-caption-es="Gastronomía"
+                    data-lightbox-caption-en="Gastronomy"
+                  >
                     <img src="assets/experiencias/images/Restaurant.webp" alt="Mesa gastronómica en el restaurante Valdoria" />
                   </a>
                 </figure>
@@ -224,6 +240,24 @@
       <footer class="footer">
         <span>© 2025 Valdoria Luxury Resort &amp; Spa — Tarancón, Cuenca</span>
       </footer>
+    </div>
+    <div
+      class="lightbox"
+      data-lightbox-modal
+      aria-hidden="true"
+      data-lang-aria-label-es="Visor de imágenes"
+      data-lang-aria-label-en="Image viewer"
+    >
+      <div class="lightbox__overlay" data-lightbox-close></div>
+      <figure class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="Visor de imágenes" tabindex="-1">
+        <button class="lightbox__close" type="button" data-lightbox-close>
+          <span aria-hidden="true">×</span>
+          <span class="sr-only" lang="es">Cerrar</span>
+          <span class="sr-only" lang="en">Close</span>
+        </button>
+        <img src="" alt="" data-lightbox-image />
+        <figcaption data-lightbox-caption hidden></figcaption>
+      </figure>
     </div>
 
     <script src="assets/js/navigation.js"></script>

@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const htmlElement = document.documentElement;
-  const langSwitcher = document.querySelector('[data-lang-switcher]');
   const langOptionButtons = Array.from(document.querySelectorAll('[data-lang-option]'));
   const weatherElement = document.querySelector('[data-weather]');
   const weatherTextNodes = weatherElement
@@ -65,6 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     : null;
   const weatherIconNode = weatherElement ? weatherElement.querySelector('.nav__weather-icon') : null;
+  const lightboxModal = document.querySelector('[data-lightbox-modal]');
+  const lightboxDialog = lightboxModal ? lightboxModal.querySelector('.lightbox__dialog') : null;
+  const lightboxImage = lightboxModal ? lightboxModal.querySelector('[data-lightbox-image]') : null;
+  const lightboxCaptionNode = lightboxModal ? lightboxModal.querySelector('[data-lightbox-caption]') : null;
+  const lightboxCloseElements = lightboxModal ? Array.from(lightboxModal.querySelectorAll('[data-lightbox-close]')) : [];
+  const lightboxTriggers = lightboxModal ? Array.from(document.querySelectorAll('[data-lightbox-trigger]')) : [];
 
   let storedLanguage = null;
   try {
@@ -79,8 +84,112 @@ document.addEventListener('DOMContentLoaded', () => {
   let weatherData = null;
   let weatherIsLoading = Boolean(weatherElement);
   let weatherFailed = false;
+  let lightboxIsOpen = false;
+  let activeLightboxTrigger = null;
 
   const getWeatherEntry = (code) => weatherCodeMap[code] || null;
+  const upperFirst = (value) => (value ? value.charAt(0).toUpperCase() + value.slice(1) : '');
+
+  const getLightboxCaption = (trigger, lang) => {
+    if (!trigger) {
+      return '';
+    }
+    const datasetKey = `lightboxCaption${upperFirst(lang)}`;
+    const captionFromDataset = trigger.dataset[datasetKey];
+    if (captionFromDataset && captionFromDataset.trim()) {
+      return captionFromDataset.trim();
+    }
+    const image = trigger.querySelector('img');
+    if (image && image.alt) {
+      return image.alt;
+    }
+    return '';
+  };
+
+  const updateLightboxLabels = () => {
+    if (!lightboxModal || !lightboxDialog) {
+      return;
+    }
+    const key = currentLanguage === 'es' ? 'langAriaLabelEs' : 'langAriaLabelEn';
+    const label = lightboxModal.dataset[key];
+    if (label) {
+      lightboxDialog.setAttribute('aria-label', label);
+    }
+  };
+
+  const syncLightboxContent = () => {
+    if (!lightboxIsOpen || !activeLightboxTrigger || !lightboxImage) {
+      return;
+    }
+    const source = activeLightboxTrigger.getAttribute('href') || activeLightboxTrigger.dataset.lightboxSrc;
+    if (source && lightboxImage.getAttribute('src') !== source) {
+      lightboxImage.src = source;
+    }
+    const triggerImage = activeLightboxTrigger.querySelector('img');
+    lightboxImage.alt = (triggerImage && triggerImage.alt) || '';
+
+    if (lightboxCaptionNode) {
+      const caption = getLightboxCaption(activeLightboxTrigger, currentLanguage);
+      if (caption) {
+        lightboxCaptionNode.textContent = caption;
+        lightboxCaptionNode.hidden = false;
+      } else {
+        lightboxCaptionNode.textContent = '';
+        lightboxCaptionNode.hidden = true;
+      }
+    }
+  };
+
+  const closeLightbox = (focusReturn = true) => {
+    if (!lightboxModal || !lightboxIsOpen) {
+      return;
+    }
+    lightboxIsOpen = false;
+    lightboxModal.classList.remove('lightbox--open');
+    lightboxModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lightbox-open');
+    if (lightboxImage) {
+      lightboxImage.removeAttribute('src');
+      lightboxImage.alt = '';
+    }
+    if (lightboxCaptionNode) {
+      lightboxCaptionNode.textContent = '';
+      lightboxCaptionNode.hidden = true;
+    }
+    const trigger = activeLightboxTrigger;
+    activeLightboxTrigger = null;
+    if (focusReturn && trigger && typeof trigger.focus === 'function') {
+      trigger.focus();
+    }
+  };
+
+  const openLightbox = (trigger) => {
+    if (!lightboxModal || !lightboxImage || !trigger) {
+      return;
+    }
+    const source = trigger.getAttribute('href') || trigger.dataset.lightboxSrc;
+    if (!source) {
+      return;
+    }
+
+    activeLightboxTrigger = trigger;
+    lightboxIsOpen = true;
+    lightboxModal.classList.add('lightbox--open');
+    lightboxModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lightbox-open');
+
+    syncLightboxContent();
+    updateLightboxLabels();
+
+    const primaryClose = lightboxCloseElements.length ? lightboxCloseElements[0] : null;
+    window.requestAnimationFrame(() => {
+      if (primaryClose && typeof primaryClose.focus === 'function') {
+        primaryClose.focus();
+      } else if (lightboxDialog && typeof lightboxDialog.focus === 'function') {
+        lightboxDialog.focus();
+      }
+    });
+  };
 
   const renderWeather = () => {
     if (!weatherElement || !weatherTextNodes) {
@@ -226,6 +335,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAriaLabels(lang);
     updateMenuLabels();
     updateLangOptionState();
+    updateLightboxLabels();
+    syncLightboxContent();
 
     if (disclaimerControls && typeof disclaimerControls.updateAudioButtonLabel === 'function') {
       disclaimerControls.updateAudioButtonLabel();
@@ -467,14 +578,42 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileViewportQuery.addListener(handleBreakpointChange);
   }
 
-  document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape') {
-      return;
-    }
+  if (lightboxTriggers.length && lightboxModal) {
+    lightboxTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        openLightbox(trigger);
+      });
+      trigger.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openLightbox(trigger);
+        }
+      });
+    });
+  }
 
-    const activeControl = navControls.find(({ nav }) => nav.classList.contains('nav--open'));
-    if (activeControl) {
-      activeControl.closeMenu(true);
+  if (lightboxCloseElements.length) {
+    lightboxCloseElements.forEach((element) => {
+      element.addEventListener('click', (event) => {
+        event.preventDefault();
+        closeLightbox();
+      });
+    });
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      if (lightboxIsOpen) {
+        event.preventDefault();
+        closeLightbox();
+        return;
+      }
+
+      const activeControl = navControls.find(({ nav }) => nav.classList.contains('nav--open'));
+      if (activeControl) {
+        activeControl.closeMenu(true);
+      }
     }
   });
 
