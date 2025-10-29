@@ -19,42 +19,47 @@
 
   // Obtiene la hora/fecha en zona horaria de Madrid (Europe/Madrid)
   const getMadridTimeString = () => {
+    // Usar formatter con timeZone especificado explícitamente
+    const formatter = new Intl.DateTimeFormat('es-ES', {
+      timeZone: 'Europe/Madrid',
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
+    const formatterEN = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Madrid',
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
     const now = new Date();
+    const partsES = formatter.formatToParts(now);
+    const partsEN = formatterEN.formatToParts(now);
 
-    // Formato de fecha en español e inglés
-    const dateES = now.toLocaleDateString('es-ES', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    // Construir strings desde las partes
+    const dateES = `${partsES.find(p => p.type === 'weekday').value}, ${partsES.find(p => p.type === 'day').value} de ${partsES.find(p => p.type === 'month').value} de ${partsES.find(p => p.type === 'year').value}`;
+    const timeES = `${partsES.find(p => p.type === 'hour').value}:${partsES.find(p => p.type === 'minute').value}`;
 
-    const dateEN = now.toLocaleDateString('en-GB', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-
-    // Hora en formato HH:MM
-    const timeES = now.toLocaleTimeString('es-ES', {
-      hour: '2-digit',
-      minute: '2-digit',
-      timeZone: 'Europe/Madrid'
-    });
-
-    const timeEN = now.toLocaleTimeString('en-GB', {
-      hour: '2-digit',
-      minute: '2-digit',
-      timeZone: 'Europe/Madrid'
-    });
+    const dateEN = `${partsEN.find(p => p.type === 'weekday').value}, ${partsEN.find(p => p.type === 'day').value} ${partsEN.find(p => p.type === 'month').value} ${partsEN.find(p => p.type === 'year').value}`;
+    const timeEN = `${partsEN.find(p => p.type === 'hour').value}:${partsEN.find(p => p.type === 'minute').value}`;
 
     return {
       dateES,
       dateEN,
       timeES,
       timeEN,
-      iso: now.toISOString()
+      iso: now.toISOString(),
+      timezone: 'Europe/Madrid'
     };
   };
 
