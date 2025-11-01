@@ -236,6 +236,12 @@
       <small style="opacity: 0.65; font-size: 11px;">${msgData.timezoneName}</small>
     `;
     documentRef.body.appendChild(response);
+    if (msgData.response && window.ValdoriaAvatar && typeof window.ValdoriaAvatar.suspendForMessage === 'function') {
+      const alreadySuspended = typeof window.ValdoriaAvatar.isSuspended === 'function' && window.ValdoriaAvatar.isSuspended();
+      if (!alreadySuspended) {
+        window.ValdoriaAvatar.suspendForMessage(msgData.response);
+      }
+    }
 
     // Auto-remover después de 7 segundos
     setTimeout(() => {

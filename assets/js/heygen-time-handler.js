@@ -258,6 +258,12 @@
 
         const response = generateTimeResponse();
         console.log('[VALDORIA TIME RESPONSE]', response);
+        if (window.ValdoriaAvatar && typeof window.ValdoriaAvatar.suspendForMessage === 'function') {
+          const alreadySuspended = typeof window.ValdoriaAvatar.isSuspended === 'function' && window.ValdoriaAvatar.isSuspended();
+          if (!alreadySuspended) {
+            window.ValdoriaAvatar.suspendForMessage(response);
+          }
+        }
 
         return {
           handled: true,
@@ -302,6 +308,12 @@
 
         // Enviar la respuesta correcta de vuelta al iframe
         const response = generateTimeResponse();
+        if (window.ValdoriaAvatar && typeof window.ValdoriaAvatar.suspendForMessage === 'function') {
+          const alreadySuspended = typeof window.ValdoriaAvatar.isSuspended === 'function' && window.ValdoriaAvatar.isSuspended();
+          if (!alreadySuspended) {
+            window.ValdoriaAvatar.suspendForMessage(response);
+          }
+        }
         if (event.source) {
           event.source.postMessage({
             type: 'time-response',

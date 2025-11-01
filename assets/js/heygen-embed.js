@@ -45,6 +45,11 @@
     border: 0;
     border-radius: 8px;
   }
+  #heygen-streaming-embed.suspended {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
   #heygen-streaming-container {
     width: 100%;
     height: 100%;
@@ -101,6 +106,10 @@
   let userInitiated = desktopMediaQuery.matches;
   const heroVideos = Array.from(documentRef.querySelectorAll('.hero-video'));
   const pausedHeroVideos = new Set();
+  const overrideOverlayId = 'valdoria-avatar-override';
+  let suspensionTimer = null;
+  let isSuspended = false;
+  let restoreExpandedAfterSuspension = false;
 
   const pauseHeroVideos = () => {
     heroVideos.forEach((video) => {
@@ -125,6 +134,125 @@
       }
     });
     pausedHeroVideos.clear();
+  };
+
+  const showOverrideOverlay = (message) => {
+    if (!message) {
+      return;
+    }
+    let overlay = documentRef.getElementById(overrideOverlayId);
+    if (!overlay) {
+      overlay = documentRef.createElement('div');
+      overlay.id = overrideOverlayId;
+      overlay.style.cssText = `
+        position: fixed;
+        left: 50%;
+        bottom: 120px;
+        transform: translateX(-50%);
+        width: min(360px, 92vw);
+        padding: 18px 20px;
+        border-radius: 14px;
+        background: rgba(10, 12, 20, 0.94);
+        color: #ffffff;
+        font: 15px/1.6 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        z-index: 10003;
+        text-align: left;
+      `;
+    } else {
+      overlay.innerHTML = '';
+    }
+    const title = documentRef.createElement('strong');
+    title.style.display = 'block';
+    title.style.fontWeight = '600';
+    title.style.marginBottom = '6px';
+    title.textContent = 'Respuesta en tiempo real';
+
+    const content = documentRef.createElement('p');
+    content.style.margin = '0';
+    content.textContent = message;
+
+    overlay.appendChild(title);
+    overlay.appendChild(content);
+    documentRef.body.appendChild(overlay);
+  };
+
+  const hideOverrideOverlay = () => {
+    const overlay = documentRef.getElementById(overrideOverlayId);
+    if (overlay && overlay.parentNode) {
+      overlay.remove();
+    }
+  };
+
+  const speakOverrideMessage = (message, onComplete) => {
+    const fallbackComplete = typeof onComplete === 'function' ? onComplete : () => {};
+    if (!message || typeof window.speechSynthesis === 'undefined') {
+      return;
+    }
+    try {
+      window.speechSynthesis.cancel();
+    } catch (error) {
+      // Ignore cancellation errors
+    }
+    const utterance = new window.SpeechSynthesisUtterance(message);
+    utterance.lang = 'es-ES';
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    try {
+      const voices = window.speechSynthesis.getVoices();
+      const spanishVoice = voices.find((voice) => voice.lang && voice.lang.toLowerCase().startsWith('es'));
+      if (spanishVoice) {
+        utterance.voice = spanishVoice;
+      }
+    } catch (error) {
+      // Ignore voice selection errors
+    }
+    utterance.onend = () => {
+      fallbackComplete();
+    };
+    utterance.onerror = () => {
+      fallbackComplete();
+    };
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const resumeAvatarFromSuspension = () => {
+    if (!isSuspended) {
+      return;
+    }
+    if (suspensionTimer) {
+      window.clearTimeout(suspensionTimer);
+      suspensionTimer = null;
+    }
+    hideOverrideOverlay();
+    iframe.style.display = '';
+    wrapDiv.classList.remove('suspended');
+    isSuspended = false;
+    if (restoreExpandedAfterSuspension) {
+      expandContainer();
+    } else {
+      updateBubbleVisibility();
+    }
+    restoreExpandedAfterSuspension = false;
+  };
+
+  const suspendAvatarForMessage = (message, options = {}) => {
+    if (!message) {
+      return;
+    }
+    const duration = typeof options.duration === 'number' ? options.duration : 8000;
+    restoreExpandedAfterSuspension = wrapDiv.classList.contains('expand') || visible;
+    collapseContainer();
+    iframe.style.display = 'none';
+    isSuspended = true;
+    wrapDiv.classList.add('suspended');
+    showOverrideOverlay(message);
+    speakOverrideMessage(message, resumeAvatarFromSuspension);
+    if (suspensionTimer) {
+      window.clearTimeout(suspensionTimer);
+    }
+    suspensionTimer = window.setTimeout(resumeAvatarFromSuspension, duration);
   };
 
   const showContainer = () => {
@@ -160,6 +288,9 @@
   };
 
   const openAvatar = () => {
+    if (isSuspended) {
+      resumeAvatarFromSuspension();
+    }
     userInitiated = true;
     expandContainer();
     if (iframe && iframe.contentWindow) {
@@ -175,10 +306,16 @@
       ready = true;
       updateBubbleVisibility();
     } else if (event.data.action === 'show') {
+      if (isSuspended) {
+        return;
+      }
       if (desktopMediaQuery.matches || userInitiated) {
         expandContainer();
       }
     } else if (event.data.action === 'hide') {
+      if (isSuspended) {
+        return;
+      }
       collapseContainer();
     }
   });
@@ -248,9 +385,17 @@
       }
     },
     close: () => {
+      resumeAvatarFromSuspension();
       collapseContainer();
     },
     isReady: () => ready,
+    suspendForMessage: (message, options) => {
+      suspendAvatarForMessage(message, options);
+    },
+    resumeSuspension: () => {
+      resumeAvatarFromSuspension();
+    },
+    isSuspended: () => isSuspended,
   });
 
   const handleDesktopChange = () => {
