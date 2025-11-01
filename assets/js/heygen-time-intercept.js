@@ -1,9 +1,32 @@
 // HeyGen Avatar - Time/Date Intercept Layer
 // Creates a chat layer that intercepts time/date questions before they reach HeyGen
-// Displays correct Madrid time instead of HeyGen's incorrect response
+// Displays correct Tarancón time instead of HeyGen's incorrect response
 
 (function (window) {
   const documentRef = window.document;
+  const REFERENCE_TIMEZONE = 'Europe/Madrid';
+  const LOCATION_LABEL_ES = 'Tarancón';
+  const LOCATION_LABEL_EN = 'Tarancón';
+
+  const getTimezoneAbbreviation = (referenceDate) => {
+    try {
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: REFERENCE_TIMEZONE,
+        timeZoneName: 'short'
+      }).formatToParts(referenceDate);
+      const tzPart = parts.find((part) => part.type === 'timeZoneName');
+      const value = tzPart ? tzPart.value : '';
+      if (/CEST/i.test(value) || value.includes('+02') || value.includes('+2')) {
+        return 'CEST';
+      }
+      if (/CET/i.test(value) || value.includes('+01') || value.includes('+1')) {
+        return 'CET';
+      }
+    } catch (error) {
+      console.warn('[Valdoria Time Intercept] Unable to resolve timezone abbreviation:', error);
+    }
+    return 'CET/CEST';
+  };
 
   // Palabras clave para detección de consultas de hora/fecha
   const TIME_TRIGGERS = [
@@ -13,10 +36,13 @@
     "what date", "what's the date", "today's date", "date is"
   ];
 
-  // Obtiene la hora/fecha en Madrid de forma fiable
-  const getMadridTime = () => {
+  // Obtiene la hora/fecha en la zona de Tarancón (Europe/Madrid)
+  const getReferenceTime = () => {
+    const timeZone = REFERENCE_TIMEZONE;
+    const now = new Date();
+    const timezoneAbbreviation = getTimezoneAbbreviation(now);
     const formatter = new Intl.DateTimeFormat('es-ES', {
-      timeZone: 'Europe/Madrid',
+      timeZone,
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -28,7 +54,7 @@
     });
 
     const formatterEN = new Intl.DateTimeFormat('en-GB', {
-      timeZone: 'Europe/Madrid',
+      timeZone,
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -38,7 +64,6 @@
       hour12: false
     });
 
-    const now = new Date();
     const partsES = formatter.formatToParts(now);
     const partsEN = formatterEN.formatToParts(now);
 
@@ -67,15 +92,22 @@
       es: {
         date: `${capitalizeFirst(weekdayES)}, ${dayES} de ${monthES} de ${yearES}`,
         time: `${hourES}:${minuteES}`,
-        response: `Ahora son las ${hourES}:${minuteES}. Hoy es ${capitalizeFirst(weekdayES)}, ${dayES} de ${monthES} de ${yearES}.`
+        timezone: timeZone,
+        timezoneName: `${LOCATION_LABEL_ES} (${timezoneAbbreviation})`,
+        response: `Ahora son las ${hourES}:${minuteES} en ${LOCATION_LABEL_ES} (${timezoneAbbreviation}). Hoy es ${capitalizeFirst(weekdayES)}, ${dayES} de ${monthES} de ${yearES}.`
       },
       en: {
         date: `${capitalizeFirst(weekdayEN)}, ${dayEN} ${capitalizeFirst(monthEN)} ${yearEN}`,
         time: `${hourEN}:${minuteEN}`,
-        response: `It's ${hourEN}:${minuteEN}. Today is ${capitalizeFirst(weekdayEN)}, ${dayEN} ${capitalizeFirst(monthEN)} ${yearEN}.`
+        timezone: timeZone,
+        timezoneName: `${LOCATION_LABEL_EN} (${timezoneAbbreviation})`,
+        response: `It's ${hourEN}:${minuteEN} in ${LOCATION_LABEL_EN} (${timezoneAbbreviation}). Today is ${capitalizeFirst(weekdayEN)}, ${dayEN} ${capitalizeFirst(monthEN)} ${yearEN}.`
       }
     };
   };
+  // Backwards compatibility helpers
+  const getLocalizedTime = getReferenceTime;
+  const getMadridTime = getReferenceTime;
 
   // Detecta pregunta sobre hora
   const isTimeQuery = (text) => {
@@ -138,7 +170,7 @@
   // Muestra la respuesta de hora
   const showTimeResponse = () => {
     const lang = documentRef.body.getAttribute('data-lang') || 'es';
-    const timeData = getMadridTime();
+    const timeData = getLocalizedTime();
     const msgData = lang === 'es' ? timeData.es : timeData.en;
 
     // Remover respuesta anterior si existe
@@ -151,6 +183,7 @@
     response.innerHTML = `
       <strong>${msgData.time}</strong>
       <small>${msgData.date}</small>
+      <small style="opacity: 0.65; font-size: 11px;">${msgData.timezoneName}</small>
     `;
     documentRef.body.appendChild(response);
 
@@ -162,11 +195,14 @@
 
   // API pública
   window.ValdoriaTimeIntercept = {
+    getTime: getReferenceTime,
+    getReferenceTime,
+    getLocalizedTime,
     getMadridTime,
     isTimeQuery,
     showTimeResponse,
     getResponse: (lang = 'es') => {
-      const timeData = getMadridTime();
+      const timeData = getReferenceTime();
       return lang === 'es' ? timeData.es.response : timeData.en.response;
     }
   };
@@ -176,6 +212,6 @@
 
   // Log de inicialización
   console.log('%c[Valdoria Time Intercept] Initialized', 'color: #64ffda; font-weight: bold; font-size: 13px;');
-  console.log('Current Madrid time:', getMadridTime());
+  console.log('Current Tarancón time:', getReferenceTime());
   console.log('API: window.ValdoriaTimeIntercept');
 })(window);

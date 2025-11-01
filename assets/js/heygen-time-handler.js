@@ -1,10 +1,13 @@
 // HeyGen Avatar - Time/Date Handler for Valdoria
-// Intercepts and responds to time/date queries with correct Madrid timezone
+// Intercepts and responds to time/date queries with Valdoria's reference timezone (Tarancón, Europe/Madrid)
 // Communicates with HeyGen iframe via postMessage
 
 (function (window) {
   const documentRef = window.document;
   const heygenHost = 'https://labs.heygen.com';
+  const REFERENCE_TIMEZONE = 'Europe/Madrid';
+  const LOCATION_LABEL_ES = 'Tarancón';
+  const LOCATION_LABEL_EN = 'Tarancón';
 
   // Palabras clave que disparan la respuesta de hora/fecha
   const TIME_TRIGGERS = [
@@ -18,14 +21,35 @@
     "current date", "what day is it", "the time", "the date"
   ];
 
-  // Obtiene la hora/fecha correcta en Madrid usando Date API directa
-  const getMadridTimeString = () => {
+  const getTimezoneAbbreviation = (referenceDate) => {
+    try {
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: REFERENCE_TIMEZONE,
+        timeZoneName: 'short'
+      }).formatToParts(referenceDate);
+      const tzPart = parts.find((part) => part.type === 'timeZoneName');
+      const value = tzPart ? tzPart.value : '';
+      if (/CEST/i.test(value) || value.includes('+02') || value.includes('+2')) {
+        return 'CEST';
+      }
+      if (/CET/i.test(value) || value.includes('+01') || value.includes('+1')) {
+        return 'CET';
+      }
+    } catch (error) {
+      console.warn('[Valdoria Time Handler] Unable to resolve timezone abbreviation:', error);
+    }
+    return 'CET/CEST';
+  };
+
+  // Obtiene la hora/fecha correcta en la zona de Tarancón (Europe/Madrid)
+  const getReferenceTimeData = () => {
     // Crear una referencia a ahora
     const now = new Date();
+    const timezoneAbbreviation = getTimezoneAbbreviation(now);
 
     // Usar Intl con formatToParts para máxima precisión
     const formatter = new Intl.DateTimeFormat('es-ES', {
-      timeZone: 'Europe/Madrid',
+      timeZone: REFERENCE_TIMEZONE,
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -37,7 +61,7 @@
     });
 
     const formatterEN = new Intl.DateTimeFormat('en-GB', {
-      timeZone: 'Europe/Madrid',
+      timeZone: REFERENCE_TIMEZONE,
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -88,9 +112,14 @@
       timeEN,
       iso: now.toISOString(),
       timestamp: now.getTime(),
-      timezone: 'Europe/Madrid'
+      timezone: REFERENCE_TIMEZONE,
+      timezoneAbbreviation,
+      timezoneNameES: `${LOCATION_LABEL_ES} (${timezoneAbbreviation})`,
+      timezoneNameEN: `${LOCATION_LABEL_EN} (${timezoneAbbreviation})`
     };
   };
+  // Backwards compatibility helper
+  const getLocalizedTimeString = getReferenceTimeData;
 
   // Detecta si el usuario preguntó por la hora/fecha
   function isTimeQuery(userText) {
@@ -106,19 +135,18 @@
 
   // Genera respuesta en el idioma de la página
   function generateTimeResponse() {
-    const { timeES, dateES, timeEN, dateEN } = getMadridTimeString();
+    const { timeES, dateES, timeEN, dateEN, timezoneNameES, timezoneNameEN } = getLocalizedTimeString();
     const pageLang = documentRef.body.getAttribute('data-lang') || 'es';
 
     if (pageLang === 'es') {
-      return `Ahora son las ${timeES}. Hoy es ${dateES}.`;
-    } else {
-      return `It's ${timeEN}. Today is ${dateEN}.`;
+      return `Ahora son las ${timeES} en ${timezoneNameES}. Hoy es ${dateES}.`;
     }
+    return `It's ${timeEN} in ${timezoneNameEN}. Today is ${dateEN}.`;
   }
 
   // Crea una burbuja visual mostrando la hora local
-  function showMadridTimeBubble() {
-    const { timeES, dateES, timeEN, dateEN } = getMadridTimeString();
+  function showReferenceTimeBubble() {
+    const { timeES, dateES, timeEN, dateEN, timezoneNameES, timezoneNameEN } = getLocalizedTimeString();
 
     // Remover burbuja anterior si existe
     let bubble = documentRef.getElementById('valdoria-time-bubble');
@@ -149,10 +177,12 @@
     const pageLang = documentRef.body.getAttribute('data-lang') || 'es';
     const timeStr = pageLang === 'es' ? timeES : timeEN;
     const dateStr = pageLang === 'es' ? dateES : dateEN;
+    const timezoneLabel = pageLang === 'es' ? timezoneNameES : timezoneNameEN;
 
     bubble.innerHTML = `
       <div style="font-weight: 600; font-size: 15px; margin-bottom: 4px;">${timeStr}</div>
       <div style="font-size: 12px; opacity: 0.85;">${dateStr}</div>
+      <div style="font-size: 11px; opacity: 0.7; margin-top: 6px;">${timezoneLabel}</div>
     `;
 
     documentRef.body.appendChild(bubble);
@@ -175,7 +205,7 @@
 
       if (isTimeQueryResult) {
         // Muestra la respuesta de hora en una burbuja
-        showMadridTimeBubble();
+        showReferenceTimeBubble();
 
         const response = generateTimeResponse();
         console.log('[VALDORIA TIME RESPONSE]', response);
@@ -192,7 +222,7 @@
     },
 
     // Permite obtener la hora/fecha manualmente
-    getTime: getMadridTimeString,
+    getTime: getLocalizedTimeString,
 
     // Permite obtener solo la respuesta de texto
     getTimeResponse: generateTimeResponse,
@@ -201,7 +231,7 @@
     isTimeQuery: isTimeQuery,
 
     // Muestra la burbuja manualmente
-    showBubble: showMadridTimeBubble
+    showBubble: showReferenceTimeBubble
   };
 
   // Intercepta postMessages desde el iframe de HeyGen
@@ -219,7 +249,7 @@
 
       if (isTimeQuery(userText)) {
         console.log('[TIME QUERY DETECTED]', userText);
-        showMadridTimeBubble();
+        showReferenceTimeBubble();
 
         // Enviar la respuesta correcta de vuelta al iframe
         const response = generateTimeResponse();
@@ -236,6 +266,6 @@
 
   // Log de inicialización
   console.log('%c[Valdoria Time Handler] Ready', 'color: #4CAF50; font-weight: bold; font-size: 14px;');
-  console.log('%cCurrent Madrid time:', 'color: #2196F3;', getMadridTimeString());
+  console.log('%cCurrent Tarancón time:', 'color: #2196F3;', getLocalizedTimeString());
   console.log('%cAPI:', 'color: #FF9800;', 'window.ValdoriaTimeHandler');
 })(window);
