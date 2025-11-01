@@ -8,7 +8,12 @@
   const LOCATION_LABEL_ES = 'Tarancón';
   const LOCATION_LABEL_EN = 'Tarancón';
 
-  const getTimezoneAbbreviation = (referenceDate) => {
+  const TIME_API_URL = 'https://worldtimeapi.org/api/timezone/Europe/Madrid';
+  let referenceTimeCache = null;
+  let lastFetchTimestamp = 0;
+  let isFetchingReferenceTime = false;
+
+  const resolveTimezoneAbbreviation = (referenceDate, fallbackAbbreviation) => {
     try {
       const parts = new Intl.DateTimeFormat('en-GB', {
         timeZone: REFERENCE_TIMEZONE,
@@ -25,6 +30,9 @@
     } catch (error) {
       console.warn('[Valdoria Time Intercept] Unable to resolve timezone abbreviation:', error);
     }
+    if (fallbackAbbreviation && typeof fallbackAbbreviation === 'string') {
+      return fallbackAbbreviation.toUpperCase();
+    }
     return 'CET/CEST';
   };
 
@@ -36,11 +44,9 @@
     "what date", "what's the date", "today's date", "date is"
   ];
 
-  // Obtiene la hora/fecha en la zona de Tarancón (Europe/Madrid)
-  const getReferenceTime = () => {
+  const buildReferenceTime = (date, abbreviation) => {
     const timeZone = REFERENCE_TIMEZONE;
-    const now = new Date();
-    const timezoneAbbreviation = getTimezoneAbbreviation(now);
+    const timezoneAbbreviation = resolveTimezoneAbbreviation(date, abbreviation);
     const formatter = new Intl.DateTimeFormat('es-ES', {
       timeZone,
       weekday: 'long',
@@ -64,8 +70,8 @@
       hour12: false
     });
 
-    const partsES = formatter.formatToParts(now);
-    const partsEN = formatterEN.formatToParts(now);
+    const partsES = formatter.formatToParts(date);
+    const partsEN = formatterEN.formatToParts(date);
 
     const getPart = (parts, type) => {
       const p = parts.find(x => x.type === type);
@@ -105,9 +111,53 @@
       }
     };
   };
+
+  const refreshReferenceTime = () => {
+    if (typeof fetch !== 'function') {
+      return;
+    }
+    if (isFetchingReferenceTime) {
+      return;
+    }
+    isFetchingReferenceTime = true;
+    fetch(TIME_API_URL, { cache: 'no-store', mode: 'cors' })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Unexpected status ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const isoString = data && typeof data.datetime === 'string' ? data.datetime : null;
+        const abbreviation = data && typeof data.abbreviation === 'string' ? data.abbreviation : undefined;
+        const referenceDate = isoString ? new Date(isoString) : new Date();
+        referenceTimeCache = buildReferenceTime(referenceDate, abbreviation);
+        lastFetchTimestamp = Date.now();
+      })
+      .catch((error) => {
+        console.warn('[Valdoria Time Intercept] Failed to refresh reference time:', error);
+      })
+      .finally(() => {
+        isFetchingReferenceTime = false;
+      });
+  };
+
+  // Obtiene la hora/fecha en la zona de Tarancón (Europe/Madrid)
+  const getReferenceTime = () => {
+    if (!referenceTimeCache) {
+      referenceTimeCache = buildReferenceTime(new Date());
+      lastFetchTimestamp = Date.now();
+      refreshReferenceTime();
+    } else if (Date.now() - lastFetchTimestamp > 60000) {
+      refreshReferenceTime();
+    }
+    return referenceTimeCache;
+  };
   // Backwards compatibility helpers
-  const getLocalizedTime = getReferenceTime;
-  const getMadridTime = getReferenceTime;
+  const getLocalizedTime = () => getReferenceTime();
+  const getMadridTime = () => getReferenceTime();
+  // Prime remote time fetch
+  refreshReferenceTime();
 
   // Detecta pregunta sobre hora
   const isTimeQuery = (text) => {
