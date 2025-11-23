@@ -333,9 +333,31 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 400);
     };
 
+    const loadVideoSources = () => {
+      if (!video || video.querySelector('source')) {
+        return;
+      }
+      const webmSrc = video.dataset.webmSrc;
+      const mp4Src = video.dataset.mp4Src;
+      if (webmSrc) {
+        const sourceWebm = document.createElement('source');
+        sourceWebm.src = webmSrc;
+        sourceWebm.type = 'video/webm';
+        video.appendChild(sourceWebm);
+      }
+      if (mp4Src) {
+        const sourceMp4 = document.createElement('source');
+        sourceMp4.src = mp4Src;
+        sourceMp4.type = 'video/mp4';
+        video.appendChild(sourceMp4);
+      }
+      video.load();
+    };
+
     const showDisclaimer = () => {
       disclaimerElement.setAttribute('aria-hidden', 'false');
       document.body.classList.add('disclaimer-open');
+      loadVideoSources();
       resetVideo(true);
       if (video) {
         videoEndedHandler = () => {

@@ -476,16 +476,27 @@ body.disclaimer-open {
 .hero__media {
   position: absolute;
   inset: 0;
-  background-image: url('../resort/images/Hotel_Gemini_pic.webp');
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.92) saturate(1.05) sepia(0.05);
-  transform: scale(1.02);
-  transition: transform 8s ease, filter 0.6s ease;
+  overflow: hidden;
+  pointer-events: none;
   z-index: 0;
 }
 
-.hero:hover .hero__media {
+.hero__media picture,
+.hero__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__media img {
+  object-fit: cover;
+  filter: brightness(0.92) saturate(1.05) sepia(0.05);
+  transform: scale(1.02);
+  transition: transform 8s ease, filter 0.6s ease;
+}
+
+.hero:hover .hero__media img {
   transform: scale(1.08);
   filter: brightness(1) saturate(1.08) sepia(0.03);
 }

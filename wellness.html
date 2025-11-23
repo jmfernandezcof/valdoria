@@ -37,7 +37,7 @@
         <video
           class="disclaimer__video"
           playsinline
-          preload="auto"
+          preload="metadata"
           controlslist="nodownload noplaybackrate nofullscreen"
           disablepictureinpicture
         >
@@ -175,7 +175,14 @@
                     data-lightbox-caption-es="Piscina termal del Valdoria Ritual Spa"
                     data-lightbox-caption-en="Thermal pool at Valdoria Ritual Spa"
                   >
-                    <img src="assets/wellness/images/Spa.webp" alt="Piscina termal del Valdoria Ritual Spa" />
+                    <img
+                      src="assets/wellness/images/Spa.webp"
+                      alt="Piscina termal del Valdoria Ritual Spa"
+                      width="1024"
+                      height="1024"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </a>
                 </figure>
                 <h3 lang="es">Valdoria Ritual Spa</h3>
@@ -201,7 +208,14 @@
                     data-lightbox-caption-es="Mesa preparada en el restaurante Valdoria"
                     data-lightbox-caption-en="Chef’s table at Valdoria restaurant"
                   >
-                    <img src="assets/experiencias/images/Restaurant.webp" alt="Restaurante Valdoria con mesa preparada para maridaje" />
+                    <img
+                      src="assets/experiencias/images/Restaurant.webp"
+                      alt="Restaurante Valdoria con mesa preparada para maridaje"
+                      width="1024"
+                      height="1024"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </a>
                 </figure>
                 <h3 lang="es">Gastronomía sensorial</h3>
@@ -227,7 +241,14 @@
                     data-lightbox-caption-es="Wine &amp; Cocktail Bar Valdoria"
                     data-lightbox-caption-en="Valdoria Wine &amp; Cocktail Bar"
                   >
-                    <img src="assets/experiencias/images/Bar.webp" alt="Coctelería Valdoria con barra y ambiente cálido" />
+                    <img
+                      src="assets/experiencias/images/Bar.webp"
+                      alt="Coctelería Valdoria con barra y ambiente cálido"
+                      width="1024"
+                      height="1024"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </a>
                 </figure>
                 <h3 lang="es">Wine &amp; Cocktail Bar</h3>
@@ -274,9 +295,14 @@
       </figure>
     </div>
 
-    <script src="assets/js/navigation.js"></script>
-    <script src="assets/js/heygen-embed.js"></script>
-    <script src="assets/js/heygen-time-handler.js"></script>
-    <script src="assets/js/heygen-time-intercept.js"></script>
+    <script src="assets/js/navigation.js" defer></script>
+    <script src="assets/js/heygen-embed.js" defer></script>
+    <script src="assets/js/heygen-time-handler.js" defer></script>
+    <script src="assets/js/heygen-time-intercept.js" defer></script>
+    <!-- ANALYTICS: Inicio (para rollback, eliminar desde aquí hasta "Fin") -->
+    <script src="assets/js/heygen-analytics.js" defer></script>
+    <!-- TIME OVERRIDE: Forces correct Tarancón time -->
+    <script src="assets/js/heygen-time-override.js" defer></script>
+    <!-- ANALYTICS: Fin -->
   </body>
 </html>

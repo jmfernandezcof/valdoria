@@ -15,6 +15,13 @@
     <link rel="preconnect" href="https://files2.heygen.ai" crossorigin />
     <link rel="dns-prefetch" href="https://files2.heygen.ai" />
     <link
+      rel="preload"
+      as="image"
+      href="assets/resort/images/Hotel_Gemini_pic-1280.webp"
+      imagesrcset="assets/resort/images/Hotel_Gemini_pic-768.webp 768w, assets/resort/images/Hotel_Gemini_pic-1280.webp 1248w"
+      imagesizes="100vw"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lato:wght@400;600&family=Playfair+Display:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
@@ -37,12 +44,12 @@
         <video
           class="disclaimer__video"
           playsinline
-          preload="auto"
+          preload="none"
           controlslist="nodownload noplaybackrate nofullscreen"
           disablepictureinpicture
+          data-webm-src="assets/brand/videos/disclaimer.webm"
+          data-mp4-src="assets/brand/videos/disclaimer.mp4"
         >
-          <source src="assets/brand/videos/disclaimer.webm" type="video/webm" />
-          <source src="assets/brand/videos/disclaimer.mp4" type="video/mp4" />
           <span lang="es">Tu navegador no soporta la reproducción automática de video. Valdoria Hotel es un proyecto conceptual sin reservas reales.</span>
           <span lang="en" hidden>Your browser does not support autoplay. Valdoria Hotel is a conceptual project with no real reservations available.</span>
         </video>
@@ -130,7 +137,30 @@
             </a>
           </div>
         </nav>
-        <div class="hero__media" role="presentation"></div>
+        <div class="hero__media" aria-hidden="true">
+          <picture>
+            <source
+              type="image/webp"
+              srcset="assets/resort/images/Hotel_Gemini_pic-1280.webp 1248w"
+              media="(min-width: 961px)"
+            />
+            <source
+              type="image/webp"
+              srcset="assets/resort/images/Hotel_Gemini_pic-768.webp 768w"
+              media="(max-width: 960px)"
+            />
+            <img
+              src="assets/resort/images/Hotel_Gemini_pic.png"
+              srcset="assets/resort/images/Hotel_Gemini_pic.png 1248w"
+              sizes="100vw"
+              alt=""
+              width="1248"
+              height="832"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </picture>
+        </div>
         <div class="hero__overlay" aria-hidden="true"></div>
         <div class="hero__content">
           <p class="logo-subtitle">Luxury Resort &amp; Spa — Tarancón, Cuenca</p>
@@ -138,6 +168,10 @@
             class="hero__logo"
             src="assets/brand/Logo.webp"
             alt="Valdoria Luxury Resort &amp; Spa"
+            width="1024"
+            height="1024"
+            decoding="async"
+            fetchpriority="low"
           />
           <p class="hero__claim" lang="es">El lujo como forma de silencio.</p>
           <p class="hero__claim" lang="en" hidden>Luxury as a form of silence.</p>
@@ -170,9 +204,24 @@
       </footer>
     </div>
 
-    <script src="assets/js/navigation.js"></script>
-    <script src="assets/js/heygen-embed.js"></script>
-    <script src="assets/js/heygen-time-handler.js"></script>
-    <script src="assets/js/heygen-time-intercept.js"></script>
+    <script src="assets/js/navigation.js" defer></script>
+    <script src="assets/js/heygen-embed.js" defer></script>
+    <script src="assets/js/heygen-time-handler.js" defer></script>
+    <script src="assets/js/heygen-time-intercept.js" defer></script>
+    <!-- ANALYTICS: Deferred load after page interaction -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var analytics = document.createElement('script');
+          analytics.src = 'assets/js/heygen-analytics.js';
+          analytics.defer = true;
+          document.body.appendChild(analytics);
+          var timeOverride = document.createElement('script');
+          timeOverride.src = 'assets/js/heygen-time-override.js';
+          timeOverride.defer = true;
+          document.body.appendChild(timeOverride);
+        }, 2000);
+      });
+    </script>
   </body>
 </html>

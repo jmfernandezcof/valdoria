@@ -94,12 +94,26 @@
   }
   `;
 
-  const iframe = documentRef.createElement('iframe');
-  iframe.allowFullscreen = false;
-  iframe.title = 'Streaming Embed';
-  iframe.role = 'dialog';
-  iframe.allow = 'microphone';
-  iframe.src = url;
+  let iframe = null;
+  let iframeCreated = false;
+
+  const createIframe = () => {
+    if (iframeCreated || iframe) {
+      return iframe;
+    }
+    iframe = documentRef.createElement('iframe');
+    iframe.allowFullscreen = false;
+    iframe.title = 'Streaming Embed';
+    iframe.role = 'dialog';
+    iframe.allow = 'microphone';
+    iframe.src = url;
+    iframe.addEventListener('load', () => {
+      ready = true;
+      updateBubbleVisibility();
+    });
+    iframeCreated = true;
+    return iframe;
+  };
 
   let visible = false;
   let ready = false;
@@ -226,7 +240,9 @@
       suspensionTimer = null;
     }
     hideOverrideOverlay();
-    iframe.style.display = '';
+    if (iframe) {
+      iframe.style.display = '';
+    }
     wrapDiv.classList.remove('suspended');
     isSuspended = false;
     if (restoreExpandedAfterSuspension) {
@@ -244,7 +260,9 @@
     const duration = typeof options.duration === 'number' ? options.duration : 8000;
     restoreExpandedAfterSuspension = wrapDiv.classList.contains('expand') || visible;
     collapseContainer();
-    iframe.style.display = 'none';
+    if (iframe) {
+      iframe.style.display = 'none';
+    }
     isSuspended = true;
     wrapDiv.classList.add('suspended');
     showOverrideOverlay(message);
@@ -288,6 +306,7 @@
   };
 
   const openAvatar = () => {
+    initializeContainer();
     if (isSuspended) {
       resumeAvatarFromSuspension();
     }
@@ -320,15 +339,20 @@
     }
   });
 
-  iframe.addEventListener('load', () => {
-    ready = true;
-    updateBubbleVisibility();
-  });
+  const initializeContainer = () => {
+    if (!iframeCreated) {
+      const createdIframe = createIframe();
+      container.appendChild(createdIframe);
+    }
+    if (!documentRef.body.contains(wrapDiv)) {
+      wrapDiv.appendChild(stylesheet);
+      wrapDiv.appendChild(container);
+      documentRef.body.appendChild(wrapDiv);
+    }
+  };
 
-  container.appendChild(iframe);
   wrapDiv.appendChild(stylesheet);
   wrapDiv.appendChild(container);
-  documentRef.body.appendChild(wrapDiv);
 
   const isDisclaimerVisible = () => {
     if (!disclaimerElement) {
