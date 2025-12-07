@@ -1,0 +1,16 @@
+# Node modules
+node_modules/
+
+# Backups
+*.backup-*
+
+# Test files
+avatar-test.html
+server.js
+
+# Build artifacts
+package-lock.json
+package.json
+
+# Broken/temp files
+*-broken.js

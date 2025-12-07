@@ -442,7 +442,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       menu.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => closeMenu());
+        link.addEventListener('click', () => {
+          // Si es el trigger del avatar, cerrar menú con delay
+          if (link.hasAttribute('data-heygen-trigger')) {
+            setTimeout(() => closeMenu(), 100);
+            return;
+          }
+          closeMenu();
+        });
       });
 
       return { nav, toggle, menu, closeMenu, setState };

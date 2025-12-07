@@ -382,21 +382,15 @@
     }
   };
 
-  const triggerElements = Array.from(documentRef.querySelectorAll('[data-heygen-trigger]'));
+  const triggerElements = Array.from(documentRef.querySelectorAll("[data-heygen-trigger]"));
   triggerElements.forEach((element) => {
-    element.addEventListener('click', (event) => {
+    element.addEventListener("click", (event) => {
       event.preventDefault();
-      if (!ready) {
-        return;
-      }
       openAvatar();
     });
-    element.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
+    element.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        if (!ready) {
-          return;
-        }
         openAvatar();
       }
     });

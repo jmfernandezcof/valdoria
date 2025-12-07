@@ -1,0 +1,202 @@
+{
+    "name": "Valdoria Avatar - Hotel Operations",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "valdoria-avatar-action",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "webhook-avatar",
+            "name": "Webhook Avatar",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                250,
+                300
+            ],
+            "webhookId": "valdoria-avatar"
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "string": [
+                        {
+                            "value1": "={{ $json.body.function }}",
+                            "operation": "equals",
+                            "value2": "consultar_habitacion"
+                        }
+                    ]
+                }
+            },
+            "id": "switch-function",
+            "name": "¿Qué función?",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 1,
+            "position": [
+                450,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "url": "http://127.0.0.1:3000/api/room/={{ $json.body.args.numero_habitacion }}",
+                "options": {}
+            },
+            "id": "http-consultar-habitacion",
+            "name": "Consultar Habitación",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 3,
+            "position": [
+                650,
+                200
+            ]
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "string": [
+                        {
+                            "value1": "={{ $json.body.function }}",
+                            "operation": "equals",
+                            "value2": "crear_pedido"
+                        }
+                    ]
+                }
+            },
+            "id": "switch-crear-pedido",
+            "name": "¿Es crear pedido?",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 1,
+            "position": [
+                650,
+                400
+            ]
+        },
+        {
+            "parameters": {
+                "url": "http://127.0.0.1:3000/api/order",
+                "method": "POST",
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "room",
+                            "value": "={{ $json.body.args.numero_habitacion }}"
+                        },
+                        {
+                            "name": "item",
+                            "value": "={{ $json.body.args.item }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "http-crear-pedido",
+            "name": "Crear Pedido",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 3,
+            "position": [
+                850,
+                400
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ { \"success\": true, \"data\": $json, \"message\": \"Habitación consultada correctamente\" } }}"
+            },
+            "id": "response-consultar",
+            "name": "Respuesta Consultar",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                850,
+                200
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ { \"success\": true, \"data\": $json, \"message\": \"Pedido creado: \" + $json.body.args.item + \" para habitación \" + $json.body.args.numero_habitacion } }}"
+            },
+            "id": "response-pedido",
+            "name": "Respuesta Pedido",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                1050,
+                400
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook Avatar": {
+            "main": [
+                [
+                    {
+                        "node": "¿Qué función?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "¿Qué función?": {
+            "main": [
+                [
+                    {
+                        "node": "Consultar Habitación",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "¿Es crear pedido?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Consultar Habitación": {
+            "main": [
+                [
+                    {
+                        "node": "Respuesta Consultar",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "¿Es crear pedido?": {
+            "main": [
+                [
+                    {
+                        "node": "Crear Pedido",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Crear Pedido": {
+            "main": [
+                [
+                    {
+                        "node": "Respuesta Pedido",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": false,
+    "settings": {},
+    "versionId": "1",
+    "id": "valdoria-avatar-ops"
+}
