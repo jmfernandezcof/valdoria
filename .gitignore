@@ -14,3 +14,13 @@ package.json
 
 # Broken/temp files
 *-broken.js
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# Test files
+ui_snippet.html
+avatar-client.js
