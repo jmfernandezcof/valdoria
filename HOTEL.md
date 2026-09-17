@@ -51,7 +51,17 @@
 - Traefik con proveedor de fichero (`/root/traefik/dynamic/valdoria.yaml`) enruta al host via `172.17.0.1:9085`.
 - Subdominio `valdoria.nomadprompters.es` gestionado en Cloudflare y redirigido por Traefik.
 
+## Avatar “Habla con Val”
+
+- La integración se centraliza en `assets/js/heygen-embed.js` y se carga desde las páginas principales mediante el atributo `data-heygen-trigger`.
+- La integración antigua de HeyGen Streaming/Interactive Avatar ha quedado sustituida por un modo demo local mientras LiveAvatar requiere activar un plan.
+- Avatar LiveAvatar reservado para Val: `394470da-7d4f-4b77-bffe-14d69964d9e1`.
+- Actualmente no se realizan llamadas a HeyGen/LiveAvatar. Al abrir el panel se muestra el mensaje: “Hasta que no me contrate alguien, ¡no trabajo! 😌”. El panel incluye una `X` accesible para cerrarlo.
+- Para activar LiveAvatar, editar `LIVE_AVATAR_CONFIG` en `assets/js/heygen-embed.js`, pegar el `EMBED_URL` generado desde el panel de LiveAvatar y cambiar `ENABLED` a `true`. No guardar claves API en el frontend.
+- La API oficial de sesiones utiliza `https://api.liveavatar.com/v1/sessions/token`; si se necesita una integración programática, la clave debe permanecer en backend.
+
 ## Pendientes
+- Generar o copiar el embed de LiveAvatar cuando haya plan, probarlo en sandbox y activar `LIVE_AVATAR_CONFIG`.
 - Sustituir imágenes temporales por renders oficiales definitivos.
 - Ajustar contenido final de `resort.html` (menú, copy, datos de contacto).
 - Confirmar emisión del certificado Let’s Encrypt en Traefik.

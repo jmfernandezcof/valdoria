@@ -1,9 +1,16 @@
 // HeyGen streaming avatar embed for Valdoria
 (function (window) {
-  const host = 'https://labs.heygen.com';
-  const url =
-    host +
-    '/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiI0MDA4ZDg0ZThlOWI0YzQ0OTc1MDMzY2Y5%0D%0ANjYxNzgxMyIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzQwMDhkODRlOGU5YjRjNDQ5NzUwMzNjZjk2NjE3ODEzL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6ImI2%0D%0AOTgyNjM1NDdiMTQ4ODliNTA0NTVmNTdlZGEwNGE3IiwidXNlcm5hbWUiOiIyMTI1OTIxMTkxNWI0%0D%0AMWYwOTZlM2M4OWM5ZDViZGNkZSJ9&inIFrame=1';
+  // LiveAvatar queda preparado, pero desactivado hasta que haya plan/créditos.
+  // Cuando esté disponible el embed del panel, sustituir EMBED_URL y activar ENABLED.
+  const LIVE_AVATAR_CONFIG = {
+    ENABLED: false,
+    AVATAR_ID: '394470da-7d4f-4b77-bffe-14d69964d9e1',
+    EMBED_URL: '',
+    PLACEHOLDER_MESSAGE: 'Hasta que no me contrate alguien, ¡no trabajo! 😌',
+  };
+
+  const host = 'https://app.liveavatar.com';
+  const url = LIVE_AVATAR_CONFIG.EMBED_URL;
 
   const documentRef = window.document;
   const body = documentRef.body || documentRef.documentElement;
@@ -17,6 +24,22 @@
 
   const container = documentRef.createElement('div');
   container.id = 'heygen-streaming-container';
+
+  const closeButton = documentRef.createElement('button');
+  closeButton.type = 'button';
+  closeButton.className = 'valdoria-avatar-close';
+  closeButton.setAttribute('aria-label', 'Cerrar ventana de Val');
+  closeButton.title = 'Cerrar';
+  closeButton.innerHTML = '&times;';
+
+  const placeholder = documentRef.createElement('div');
+  placeholder.className = 'valdoria-avatar-placeholder';
+  placeholder.setAttribute('role', 'status');
+  placeholder.innerHTML = `
+    <div class="valdoria-avatar-placeholder__face" aria-hidden="true">👋</div>
+    <p>${LIVE_AVATAR_CONFIG.PLACEHOLDER_MESSAGE}</p>
+    <small>Val volverá en cuanto le den presupuesto.</small>
+  `;
 
   const stylesheet = documentRef.createElement('style');
   stylesheet.innerHTML = `
@@ -59,6 +82,64 @@
     height: 100%;
     border: 0;
   }
+  .valdoria-avatar-close {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    cursor: pointer;
+    font: 28px/28px Arial, sans-serif;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  #heygen-streaming-embed.expand .valdoria-avatar-close {
+    display: block;
+  }
+  .valdoria-avatar-close:hover,
+  .valdoria-avatar-close:focus-visible {
+    background: rgba(0, 0, 0, 0.78);
+    transform: scale(1.06);
+    outline: none;
+  }
+  .valdoria-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px;
+    box-sizing: border-box;
+    background: radial-gradient(circle at 50% 30%, #8c3047 0%, #351521 72%);
+    color: #fff;
+    text-align: center;
+    font-family: inherit;
+  }
+  .valdoria-avatar-placeholder__face {
+    font-size: 42px;
+    line-height: 1;
+  }
+  .valdoria-avatar-placeholder p {
+    margin: 0;
+    max-width: 280px;
+    font-size: 17px;
+    line-height: 1.35;
+    font-weight: 600;
+  }
+  .valdoria-avatar-placeholder small {
+    max-width: 240px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 12px;
+    line-height: 1.4;
+  }
   @media (max-width: 768px) {
     #heygen-streaming-embed {
       left: auto;
@@ -98,6 +179,9 @@
   let iframeCreated = false;
 
   const createIframe = () => {
+    if (!LIVE_AVATAR_CONFIG.ENABLED || !url) {
+      return null;
+    }
     if (iframeCreated || iframe) {
       return iframe;
     }
@@ -116,7 +200,7 @@
   };
 
   let visible = false;
-  let ready = false;
+  let ready = !LIVE_AVATAR_CONFIG.ENABLED;
   let userInitiated = desktopMediaQuery.matches;
   const heroVideos = Array.from(documentRef.querySelectorAll('.hero-video'));
   const pausedHeroVideos = new Set();
@@ -342,16 +426,22 @@
   const initializeContainer = () => {
     if (!iframeCreated) {
       const createdIframe = createIframe();
-      container.appendChild(createdIframe);
+      if (createdIframe) {
+        container.appendChild(createdIframe);
+      } else if (!container.contains(placeholder)) {
+        container.appendChild(placeholder);
+      }
     }
     if (!documentRef.body.contains(wrapDiv)) {
       wrapDiv.appendChild(stylesheet);
+      wrapDiv.appendChild(closeButton);
       wrapDiv.appendChild(container);
       documentRef.body.appendChild(wrapDiv);
     }
   };
 
   wrapDiv.appendChild(stylesheet);
+  wrapDiv.appendChild(closeButton);
   wrapDiv.appendChild(container);
 
   const isDisclaimerVisible = () => {
@@ -394,6 +484,12 @@
         openAvatar();
       }
     });
+  });
+
+  closeButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    resumeAvatarFromSuspension();
+    collapseContainer();
   });
 
   window.ValdoriaAvatar = Object.assign({}, window.ValdoriaAvatar, {
