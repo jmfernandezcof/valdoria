@@ -47,9 +47,9 @@
 - Conversión general a WebP sin pérdida y actualización de referencias HTML/CSS; recursos originales en PNG se conservan donde el diseño los requiere.
 
 ## Infraestructura
-- Nginx sirve `/var/www/valdoriahotel` en `0.0.0.0:9085`.
-- Traefik con proveedor de fichero (`/root/traefik/dynamic/valdoria.yaml`) enruta al host via `172.17.0.1:9085`.
-- Subdominio `valdoria.nomadprompters.es` gestionado en Cloudflare y redirigido por Traefik.
+- El sitio está publicado detrás de un proxy inverso con TLS.
+- El dominio público se gestiona mediante Cloudflare.
+- Los detalles de rutas internas, puertos y configuración del proxy se mantienen fuera de este repositorio.
 
 ## Avatar “Habla con Val”
 
